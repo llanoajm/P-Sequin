@@ -11,9 +11,11 @@ class Domain:
         self.complement = '\'' in name
 
 class Strand:
-    def __init__(self, strand_domains) -> None:
+    def __init__(self, strand_domains, with_overhang) -> None:
         self.domains_in_strand = strand_domains
-        self.sequence = "".join([domain.sequence for domain in strand_domains]) + "TTT"
+        self.sequence = "".join([domain.sequence for domain in strand_domains])
+        if with_overhang:
+            self.sequence += "TTT"
 
 def generate_random_sequence(length):
     return ''.join(random.choice('ACGT') for _ in range(length))
@@ -62,11 +64,13 @@ def generate():
 
     strands_num = int(request.form['strands_num'])
     strand_structures = request.form['strand_structures'].split(',')
+    
+    with_overhang = 'overhang' in request.form
 
     strands = []
     for structure in strand_structures:
         strand_domains = [next(domain for domain in domains if domain.name == name) for name in structure.split()]
-        strand = Strand(strand_domains)
+        strand = Strand(strand_domains, with_overhang)
         strands.append(strand)
     
     strand_sequences = [f"Strand {i+1}: {strand.sequence}" for i, strand in enumerate(strands)]

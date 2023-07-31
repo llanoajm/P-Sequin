@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>DNA Sequence Generator</title>
-</head>
+    <head>
+        <title>DNA Sequence Generator</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
 <body>
-    <h1>DNA Sequence Generator</h1>
+    
+    <h1><span style="color:red;">D</span><span style="color:blue;">N</span><span style="color:green;">A</span>-PSD Sequence Generator</h1>
     <form action="/generate" method="post">
         <label>Number of Domains:</label>
         <input type="number" name="domains_num" required>
@@ -20,6 +22,15 @@
         <br><br>
         <label>Enter Strand Structures (comma-separated, domains separated by spaces):</label>
         <input type="text" name="strand_structures">
+        <br><br>
+        <label>Number of Complexes:</label>
+        <input type="number" name="complexes_num">
+        <br><br>
+        <label>Enter Complexes in Dot-Parens Notation (domains comma-separated):</label>
+        <input type="text" name="complex_notations">
+        <br><br>
+        <label>Include 3' Poly-T Overhang:</label>
+        <input type="checkbox" name="overhang" value="yes">
         <br><br>
         <input type="submit" value="Generate">
     </form>

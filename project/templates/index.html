@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DNA Sequence Generator</title>
+</head>
+<body>
+    <h1>DNA Sequence Generator</h1>
+    <form action="/generate" method="post">
+        <label>Number of Domains:</label>
+        <input type="number" name="domains_num" required>
+        <br><br>
+        <label>Enter Domain Names (comma-separated):</label>
+        <input type="text" name="domain_names" required>
+        <br><br>
+        <label>Enter Domain Lengths (comma-separated):</label>
+        <input type="text" name="domain_lengths" required>
+        <br><br>
+        <label>Number of Strands:</label>
+        <input type="number" name="strands_num">
+        <br><br>
+        <label>Enter Strand Structures (comma-separated, domains separated by spaces):</label>
+        <input type="text" name="strand_structures">
+        <br><br>
+        <input type="submit" value="Generate">
+    </form>
+    <br>
+    <!-- This section will display the generated sequences -->
+    {% if domain_sequences %}
+    <h2>Generated Domain Sequences:</h2>
+    <ul>
+        {% for seq in domain_sequences %}
+        <li>{{ seq }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% if strand_sequences %}
+    <h2>Generated Strand Sequences:</h2>
+    <ul>
+        {% for seq in strand_sequences %}
+        <li>{{ seq }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>

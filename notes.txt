@@ -1,0 +1,11 @@
+
+NUPACK: 
+    N. Srinivas, T.E. Ouldridge, P. Šulc, J.M. Schaeffer, B. Yurke, A.A. Louis, J.P.K. Doye, E. Winfree,
+     On the biophysics and kinetics of toehold-mediated DNA strand displacement. Nucleic Acids Res. 41(22), 10641–10658 (2013)
+SEQUIN:
+    greatest common substring optimization algorithm
+    free energy minimization of desired secondary structures
+
+
+Bohr: The question is the solution.
+

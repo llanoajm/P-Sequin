@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNA Sequence Design</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 1em 5%;
+            background-color: white;
+            color: black;
+        }
+        .container {
+            padding: 2em 5%;
+        }
+        input[type="text"], input[type="checkbox"] + label {
+            margin: 1em 0;
+            display: block;
+        }
+        .high-use-circuits {
+            margin-top: 2em;
+        }
+        .high-use-circuits a {
+            color: white;
+            text-decoration: none;
+            margin-right: 1em;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div>Sequence Designer</div>
+        <div>High Use Circuits</div>
+    </nav>
+    <div class="container">
+        <section>
+            <h2>Sequence Designer</h2>
+            <input type="text" placeholder="Enter DNA sequence in dot parens notation">
+            
+            <label for="clampDomain">Clamp domain (yes/no)</label>
+            <br>
+            <input type="checkbox" id="clampDomain">
+            
+            <label for="polyOverhang">3' poly-T overhang (yes/no)</label>
+            <input type="checkbox" id="polyOverhang">
+        </section>
+        <section class="high-use-circuits">
+            <h2>High Use Circuits</h2>
+            <a href="#">RPS Oscillator</a>
+            <a href="#">Lotka Volterra Oscillator</a>
+            <a href="#">Autocatalytic Amplifier</a>
+        </section>
+    </div>
+</body>
+</html>

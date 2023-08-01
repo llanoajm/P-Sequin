@@ -1,15 +1,24 @@
 import random
-import nupack as nu # only installed in /usr/local/bin/python3
+import nupack as nu # installed on /usr/local/bin/python3, not on conda                     
 
+
+def is_palindrome(seq):
+    # Check if a DNA sequence is a palindrome.
+    complement = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C'}
+    return all(complement[base] == seq[-i - 1] for i, base in enumerate(seq))
 
 def initialize_sequence(length):
-    sequence = []
-    for _ in range(length):
-        sequence.append(random.choice(["A", "T", "C", "G"]))
-    
-    # TODO: Ensure 40-60% GC content and avoid palindromes and repeated sequences
-    
-    return sequence
+    MAX_TRIES = 1000
+    tries = 0
+    while tries < MAX_TRIES:
+        sequence = [random.choice(["A", "T", "C", "G"]) for _ in range(length)]
+        gc_content = sum(1 for base in sequence if base in ["G", "C"]) / length
+        if 0.4 <= gc_content <= 0.6:
+            palindrome = any(is_palindrome(sequence[i:i+length//2]) for i in range(length // 2))
+            if not palindrome:
+                return sequence
+        tries += 1
+    raise ValueError("Failed to generate sequence after {} tries.".format(MAX_TRIES))
 
 
 def compute_stability(sequence):
@@ -30,18 +39,8 @@ def check_secondary_structures(sequence):
 
 
 
-
-
-
 # TODO
 # establish all orthogonal relationships graph
-
-
-
-
-
-
-
 
 
 

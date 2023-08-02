@@ -54,6 +54,7 @@ class NSGA:
     def mutate_sequence(self, individual):
         mutation_point = random.randint(0, len(individual) - 1)
         available_bases = set(["A", "T", "C", "G"]) - {individual[mutation_point]}
+        print("all in order")
         individual[mutation_point] = random.choice(list(available_bases))
         return individual,
 
@@ -95,6 +96,7 @@ class NSGA:
 
         # Sorting the final population by ID to retain original order
         population.sort(key=lambda x: x.id)
+        
         return [''.join(ind) for ind in population]
 
 

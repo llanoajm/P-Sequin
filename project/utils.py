@@ -16,9 +16,6 @@ class Strand:
 def generate_random_sequence(length):
     return ''.join(random.choice('ACGT') for _ in range(length))
 
-def is_palindromic(sequence):
-    return sequence == sequence[::-1]
-
 def compute_complement(sequence):
     complement_map = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C'}
     return ''.join(complement_map[base] for base in sequence)
@@ -28,15 +25,13 @@ generated_sequences = set()
 def generate_unique_domain_and_complement(length):
     while True:
         sequence = generate_random_sequence(length)
-        if not is_palindromic(sequence) and sequence not in generated_sequences:
+        if sequence not in generated_sequences:
             complement = compute_complement(sequence)
             generated_sequences.add(sequence)
             generated_sequences.add(complement)
             return sequence, complement
         
         
-def initialize_sequence(length, domains):
-    return Strand(domains)
 
         
 # 40-60% GC 

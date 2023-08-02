@@ -1,40 +1,9 @@
 
-fitnesses = list(map(toolbox.evaluate, population))
-for ind, fit in zip(population, fitnesses):
-    ind.fitness.values = fit
-
-def get_elites(population, offspring, num_elites=5):
-    combined = population + offspring
-    combined.sort(key=lambda x: x.fitness.values)
-    elites = combined[:num_elites]
-    return list(elites)
-
-population_size = 100
-n_generations = 50
-for gen in range(n_generations):
-    offspring = toolbox.select(population, len(population) - 5)
-    offspring = list(toolbox.map(toolbox.clone, offspring))
-    
-    for child1, child2 in zip(offspring[::2], offspring[1::2]):
-        if random.random() < 0.7:
-            toolbox.mate(child1, child2)
-            del child1.fitness.values
-            del child2.fitness.values
-
-    for mutant in offspring:
-        if random.random() < 0.2:
-            toolbox.mutate(mutant)
-            del mutant.fitness.values
-
-    fitnesses = list(map(toolbox.evaluate, offspring))
-    for ind, fit in zip(offspring, fitnesses):
-        ind.fitness.values = fit
-
-    elites = get_elites(population, offspring)
-    offspring.extend(elites)
-    population[:] = offspring
-
-    fits = [ind.fitness.values for ind in population]
-    length_avg = sum(len(ind) for ind in population) / len(population)
-    fit_avg = tuple(sum(f[i] for f in fits) / len(population) for i in range(len(fits[0])))
-    print(f"Gen {gen}, Length Avg: {length_avg}, Fitness Avg: {fit_avg}")
+Assign polymerase strands.
+Have id ordered appropiately.
+Have GA take input from flask and flask from GA.
+Add loading animation.
+Add Complex support with peppercorn or hard-code.
+Illustrate complexes automatically.
+Improve design.
+Add strands as cells and have flag for whether they bear a polymerase or not.

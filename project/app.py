@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-from brain import *
+from utils import *
 
 
 @app.route('/')
@@ -37,6 +37,7 @@ def generate():
     strands = []
     for structure in strand_structures:
         strand_domains = [next(domain for domain in domains if domain.name == name) for name in structure.split()]
+        
         strand = Strand(strand_domains, with_overhang)
         strands.append(strand)
     
@@ -48,4 +49,3 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
-#link to NUPACK reinforcement learning.

@@ -1,14 +1,16 @@
 import random
 from deap import base, creator, tools
+from metrics import *
 from utils import *
 
-class NSGA_II:
+
+class NSGA:
     def __init__(self, desired_lengths, generations=2):
         self.desired_lengths = desired_lengths
         self.n_generations = generations
         
         # Define the fitness and individual types inside the constructor
-        creator.create("FitnessMulti", base.Fitness, weights=(-1.0, -1.0, -1.0, -1.0))
+        creator.create("FitnessMulti", base.Fitness, weights=(-1.0, -1.0, -1.0, -1.0, -1.0, -1.0)) # all metrics/objectives are to be minimized
         creator.create("Individual", list, fitness=creator.FitnessMulti, id=int) 
         
         self.toolbox = base.Toolbox()
@@ -19,11 +21,13 @@ class NSGA_II:
     
     def evaluate(self, individual):
         strand = ''.join(individual)
-        stability = float(compute_stability(strand))
+        stability = compute_stability(strand)
         secondary_structures = check_secondary_structures(strand)
         lcs_value = 0  # Placeholder
         cross_hybridization = 0  # Placeholder
-        return lcs_value, stability, secondary_structures, cross_hybridization
+        palindrome_score = check_if_palindrome(strand)
+        gc_content_score = check_gc_content(strand)
+        return lcs_value, stability, secondary_structures, cross_hybridization, palindrome_score, gc_content_score
 
     def variable_length_crossover(self, parent1, parent2):
         if len(parent1) < len(parent2):

@@ -7,11 +7,11 @@ class Domain:
         self.complement = '\'' in name
 
 class Strand:
-    def __init__(self, strand_domains, with_overhang) -> None:
+    def __init__(self, strand_domains) -> None:
         self.domains_in_strand = strand_domains
         self.sequence = "".join([domain.sequence for domain in strand_domains])
-        if with_overhang:
-            self.sequence += "TTT"
+        #if with_overhang:
+        #   self.sequence += "TTT" # add this only after final generation.
 
 def generate_random_sequence(length):
     return ''.join(random.choice('ACGT') for _ in range(length))
@@ -35,6 +35,9 @@ def generate_unique_domain_and_complement(length):
             return sequence, complement
         
         
+def initialize_sequence(length, domains):
+    return Strand(domains)
+
         
 # 40-60% GC 
 # clamp domains.

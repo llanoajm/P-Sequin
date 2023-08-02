@@ -5,8 +5,8 @@ from utils import *
 
 
 class NSGA:
-    def __init__(self, initial_population, generations=2):
-        self.n_generations = generations
+    def __init__(self, initial_population):
+        
         self.initial_population = initial_population
         # Define the fitness and individual types inside the constructor
         creator.create("FitnessMulti", base.Fitness, weights=(-1.0, -1.0, -1.0, -1.0, -1.0, -1.0)) # all metrics/objectives are to be minimized
@@ -54,11 +54,10 @@ class NSGA:
     def mutate_sequence(self, individual):
         mutation_point = random.randint(0, len(individual) - 1)
         available_bases = set(["A", "T", "C", "G"]) - {individual[mutation_point]}
-        print("all in order")
         individual[mutation_point] = random.choice(list(available_bases))
         return individual,
 
-    def run(self):
+    def run(self, generations):
         population = []
         id_counter = 0
         for strand in self.initial_population:
@@ -73,7 +72,7 @@ class NSGA:
             ind.fitness.values = fit
 
         # Run the genetic algorithm
-        for gen in range(self.n_generations):
+        for gen in range(generations):
             offspring = self.toolbox.select(population, len(population))
             offspring = list(map(self.toolbox.clone, offspring))
 

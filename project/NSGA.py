@@ -5,10 +5,9 @@ from utils import *
 
 
 class NSGA:
-    def __init__(self, desired_lengths, generations=2):
-        self.desired_lengths = desired_lengths
+    def __init__(self, initial_population, generations=2):
         self.n_generations = generations
-        
+        self.initial_population = initial_population
         # Define the fitness and individual types inside the constructor
         creator.create("FitnessMulti", base.Fitness, weights=(-1.0, -1.0, -1.0, -1.0, -1.0, -1.0)) # all metrics/objectives are to be minimized
         creator.create("Individual", list, fitness=creator.FitnessMulti, id=int) 
@@ -61,8 +60,8 @@ class NSGA:
     def run(self):
         population = []
         id_counter = 0
-        for length in self.desired_lengths:
-            ind = creator.Individual(initialize_sequence(length))
+        for strand in self.initial_population:
+            ind = creator.Individual(strand)
             ind.id = id_counter
             id_counter += 1
             population.append(ind)

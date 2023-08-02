@@ -3,7 +3,7 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 
 from utils import *
-
+from NSGA import *
 
 @app.route('/')
 def index():
@@ -34,14 +34,18 @@ def generate():
     
     with_overhang = 'overhang' in request.form
 
-    strands = []
+    initial_population = []
     for structure in strand_structures:
         strand_domains = [next(domain for domain in domains if domain.name == name) for name in structure.split()]
-        
-        strand = Strand(strand_domains, with_overhang)
-        strands.append(strand)
+        sequence = "".join([domain.sequence for domain in strand_domains])
+        initial_population.append(sequence)
     
-    strand_sequences = [f"Strand {i+1}: {strand.sequence}" for i, strand in enumerate(strands)]
+    
+    nsga = NSGA(initial_population)
+    evolved_strands = nsga.run()
+    evolved_strands = [strand + "TTTTT" for strand in evolved_strands] if with_overhang else evolved_strands
+
+    strand_sequences = [f"Strand {i+1}: {strand}" for i, strand in enumerate(evolved_strands)]
 
     return render_template('index.html', domain_sequences=domain_sequences, strand_sequences=strand_sequences)
 

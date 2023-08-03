@@ -1,7 +1,10 @@
+# (DEPRECATED)
+
 import random
 from deap import base, creator, tools
 from metrics import *
 from utils import *
+
 
 class NSGA:
     def __init__(self, initial_population, domain_appearances, strand_structures):
@@ -9,9 +12,8 @@ class NSGA:
         self.initial_population = initial_population
         self.domain_appearances = domain_appearances
         self.strand_structures = strand_structures
-        
         # Define the fitness and individual types inside the constructor
-        creator.create("FitnessMulti", base.Fitness, weights=(-1.0, -1.0, -1.0, -1.0, -1.0, -1.0))
+        creator.create("FitnessMulti", base.Fitness, weights=(-1.0, -1.0, -1.0, -1.0, -1.0, -1.0)) # all metrics/objectives are to be minimized
         creator.create("Individual", list, fitness=creator.FitnessMulti, id=int) 
         
         self.toolbox = base.Toolbox()
@@ -20,35 +22,15 @@ class NSGA:
         self.toolbox.register("mutate", self.mutate_sequence)
         self.toolbox.register("select", tools.selNSGA2)
     
-    def evaluate(self, domain_individual):
-        # Get the current sequence of the domain
-        domain_sequence = ''.join(domain_individual)
-        
-        # Retrieve the IDs of the strands where this domain appears
-        strand_ids = self.domain_appearances[domain_individual.id]
-        
-        # For each strand ID, reconstruct the strand using the current sequences of its constituent domains
-        total_scores = [0, 0, 0, 0, 0, 0]
-        for strand_id in strand_ids:
-            strand_structure = self.strand_structures[strand_id]
-            reconstructed_strand = ''.join([self.initial_population[dom_id] for dom_id in strand_structure])
-            
-            # Evaluate the performance of the reconstructed strand
-            stability = compute_stability(reconstructed_strand)
-            secondary_structures = check_secondary_structures(reconstructed_strand)
-            lcs_value = 0  # Placeholder
-            cross_hybridization = 0  # Placeholder
-            palindrome_score = check_if_palindrome(reconstructed_strand)
-            gc_content_score = check_gc_content(reconstructed_strand)
-            
-            # Combine the scores from all strands for an overall evaluation of the domain
-            scores = [lcs_value, stability, secondary_structures, cross_hybridization, palindrome_score, gc_content_score]
-            total_scores = [sum(x) for x in zip(total_scores, scores)]
-        
-        # Average the scores over all strands
-        average_scores = [score / len(strand_ids) for score in total_scores]
-        return tuple(average_scores)
-
+    def evaluate(self, individual):
+        strand = ''.join(individual)
+        stability = compute_stability(strand)
+        secondary_structures = check_secondary_structures(strand)
+        lcs_value = 0  # Placeholder
+        cross_hybridization = 0  # Placeholder
+        palindrome_score = check_if_palindrome(strand)
+        gc_content_score = check_gc_content(strand)
+        return lcs_value, stability, secondary_structures, cross_hybridization, palindrome_score, gc_content_score
 
     def variable_length_crossover(self, parent1, parent2):
         if len(parent1) < len(parent2):
@@ -60,6 +42,7 @@ class NSGA:
         offspring1_data = longer[:len(longer) - len(shorter) + crossover_point] + shorter[crossover_point:]
         offspring2_data = shorter[:crossover_point] + longer[len(longer) - len(shorter) + crossover_point:len(longer) - len(shorter) + len(shorter)]
         
+        # Create offspring as Individuals
         offspring1 = creator.Individual(offspring1_data)
         offspring2 = creator.Individual(offspring2_data)
         
@@ -79,9 +62,13 @@ class NSGA:
         return individual,
 
     def run(self, generations):
-        population = [creator.Individual(strand) for strand in self.initial_population]
-        for idx, individual in enumerate(population):
-            individual.id = idx
+        population = []
+        id_counter = 0
+        for strand in self.initial_population:
+            ind = creator.Individual(strand)
+            ind.id = id_counter
+            id_counter += 1
+            population.append(ind)
 
         # Evaluate the initial population
         fitnesses = list(map(self.toolbox.evaluate, population))
@@ -110,10 +97,9 @@ class NSGA:
 
             population[:] = offspring
 
-        # Reconstruct the final strands
-        final_strands = []
-        for strand_structure in self.strand_structures:
-            strand = ''.join([self.initial_population[dom_id] for dom_id in strand_structure])
-            final_strands.append(strand)
-
-        return final_strands
+        # Sorting the final population by ID to retain original order
+        population.sort(key=lambda x: x.id)
+        
+        return [''.join(ind) for ind in population]
+    
+    

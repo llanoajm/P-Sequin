@@ -3,4 +3,6 @@ strand_domains = [next(domain for domain in domains if domain.name == name) for 
 
 TODO:
 
-"I have an idea for that note. Instead of making it average we need a way to inflate the score of a particular strand if it contains a small amount of domains."
+- "I have an idea for that note. Instead of making it average we need a way to inflate the score of a particular strand if it contains a small amount of domains."
+- tackle complement consistency.
+- make data types in NSGA object consistent with app.py

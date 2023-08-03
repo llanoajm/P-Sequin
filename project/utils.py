@@ -5,6 +5,7 @@ class Domain:
         self.name = name
         self.sequence = sequence
         self.complement = '\'' in name
+        
 
 class Strand:
     def __init__(self, strand_domains) -> None:

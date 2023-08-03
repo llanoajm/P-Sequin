@@ -5,9 +5,11 @@ from utils import *
 
 
 class NSGA:
-    def __init__(self, initial_population):
+    def __init__(self, initial_population, domain_appearances, strand_structures):
         
         self.initial_population = initial_population
+        self.domain_appearances = domain_appearances
+        self.strand_structures = strand_structures
         # Define the fitness and individual types inside the constructor
         creator.create("FitnessMulti", base.Fitness, weights=(-1.0, -1.0, -1.0, -1.0, -1.0, -1.0)) # all metrics/objectives are to be minimized
         creator.create("Individual", list, fitness=creator.FitnessMulti, id=int) 
@@ -97,6 +99,5 @@ class NSGA:
         population.sort(key=lambda x: x.id)
         
         return [''.join(ind) for ind in population]
-
-
-
+    
+    

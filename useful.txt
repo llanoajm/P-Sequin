@@ -1,0 +1,3 @@
+strand_domains = [next(domain for domain in domains if domain.name == name) for name in structure.split()]
+        strand_sequence = "".join([domain.sequence for domain in strand_domains])
+

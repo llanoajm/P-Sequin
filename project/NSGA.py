@@ -4,15 +4,15 @@ from metrics import *
 from utils import *
 
 class NSGA:
-    def __init__(self, initial_population, domain_appearances, strand_structures):
+    def __init__(self, initial_population, domain_appearances, strand_structures, domain_names):
         
-        self.initial_population = initial_population
+        self.initial_population = dict(zip(domain_names, initial_population))
         self.domain_appearances = domain_appearances
         self.strand_structures = strand_structures
         
         # Define the fitness and individual types inside the constructor
         creator.create("FitnessMulti", base.Fitness, weights=(-1.0, -1.0, -1.0, -1.0, -1.0, -1.0))
-        creator.create("Individual", list, fitness=creator.FitnessMulti, id=int) 
+        creator.create("Individual", list, fitness=creator.FitnessMulti, id=str) 
         
         self.toolbox = base.Toolbox()
         self.toolbox.register("evaluate", self.evaluate)
@@ -31,7 +31,7 @@ class NSGA:
         total_scores = [0, 0, 0, 0, 0, 0]
         for strand_id in strand_ids:
             strand_structure = self.strand_structures[strand_id]
-            reconstructed_strand = ''.join([self.initial_population[dom_id] for dom_id in strand_structure])
+            reconstructed_strand = ''.join([self.initial_population[dom_name] for dom_name in strand_structure])
             
             # Evaluate the performance of the reconstructed strand
             stability = compute_stability(reconstructed_strand)
@@ -48,7 +48,6 @@ class NSGA:
         # Average the scores over all strands
         average_scores = [score / len(strand_ids) for score in total_scores]
         return tuple(average_scores)
-
 
     def variable_length_crossover(self, parent1, parent2):
         if len(parent1) < len(parent2):
@@ -79,15 +78,16 @@ class NSGA:
         return individual,
 
     def run(self, generations):
-        population = [creator.Individual(strand) for strand in self.initial_population]
-        for idx, individual in enumerate(population):
-            individual.id = idx
-
+        
+        population = [creator.Individual(list(sequence)) for domain_name, sequence in self.initial_population.items()]
+        for domain_name, individual in zip(self.initial_population.keys(), population):
+            individual.id = domain_name
+        
         # Evaluate the initial population
         fitnesses = list(map(self.toolbox.evaluate, population))
         for ind, fit in zip(population, fitnesses):
             ind.fitness.values = fit
-
+        # ---
         # Run the genetic algorithm
         for gen in range(generations):
             offspring = self.toolbox.select(population, len(population))
@@ -113,7 +113,7 @@ class NSGA:
         # Reconstruct the final strands
         final_strands = []
         for strand_structure in self.strand_structures:
-            strand = ''.join([self.initial_population[dom_id] for dom_id in strand_structure])
+            strand = ''.join([self.initial_population[dom_name] for dom_name in strand_structure])
             final_strands.append(strand)
 
         return final_strands

@@ -31,8 +31,8 @@ class NSGA:
         total_scores = [0, 0, 0, 0, 0, 0]
         for strand_id in strand_ids:
             strand_structure = self.strand_structures[strand_id]
-            reconstructed_strand = ''.join([self.initial_population[dom_name] for dom_name in strand_structure])
-            
+
+            reconstructed_strand = ''.join([self.initial_population[dom_name] for dom_name in strand_structure.split()])
             # Evaluate the performance of the reconstructed strand
             stability = compute_stability(reconstructed_strand)
             secondary_structures = check_secondary_structures(reconstructed_strand)
@@ -87,33 +87,38 @@ class NSGA:
         fitnesses = list(map(self.toolbox.evaluate, population))
         for ind, fit in zip(population, fitnesses):
             ind.fitness.values = fit
-        # ---
+        
+        
         # Run the genetic algorithm
         for gen in range(generations):
             offspring = self.toolbox.select(population, len(population))
+            
             offspring = list(map(self.toolbox.clone, offspring))
-
+            
             for child1, child2 in zip(offspring[::2], offspring[1::2]):
                 if random.random() < 0.7:
                     self.toolbox.mate(child1, child2)
                     del child1.fitness.values
                     del child2.fitness.values
-
+            
             for mutant in offspring:
                 if random.random() < 0.2:
                     self.toolbox.mutate(mutant)
                     del mutant.fitness.values
-
+            
             fitnesses = list(map(self.toolbox.evaluate, offspring))
             for ind, fit in zip(offspring, fitnesses):
                 ind.fitness.values = fit
-
+            
             population[:] = offspring
 
         # Reconstruct the final strands
         final_strands = []
+        
         for strand_structure in self.strand_structures:
-            strand = ''.join([self.initial_population[dom_name] for dom_name in strand_structure])
+            strand = ''.join([self.initial_population[dom_name] for dom_name in strand_structure.split()])
             final_strands.append(strand)
+            for dom_name in strand_structure.split():
+                print(dom_name, " = ", self.initial_population[dom_name])
 
         return final_strands

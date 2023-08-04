@@ -119,15 +119,14 @@ class NSGA:
             
         for individual in relevant_population:
             self.initial_population[individual.id] = ''.join(individual)
+            print(individual.id, " = ", individual)
 
         # Reconstruct the final strands
         final_strands = []
         for strand_structure in self.strand_structures:
             strand = ''.join([self.initial_population[dom_name] for dom_name in strand_structure.split()])
             final_strands.append(strand)
-        final_domains = []
+        # Extract the evolved domain sequences
+        evolved_domain_sequences = [{"name": domain_name, "sequence": sequence} for domain_name, sequence in self.initial_population.items()]
         
-        
-        
-        return final_strands, 
-
+        return final_strands, evolved_domain_sequences

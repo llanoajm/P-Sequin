@@ -51,11 +51,11 @@ def generate():
 
     nsga = NSGA(initial_population, domain_appearances, strand_structures, new_domain_names)
     
-    evolved_strands = nsga.run(6)
+    evolved_strands, evolved_domain_data = nsga.run(6)
     evolved_strands = [strand + "TTTTT" for strand in evolved_strands] if with_overhang else evolved_strands
 
     strand_sequences = [f"Strand {i+1}: {strand}" for i, strand in enumerate(evolved_strands)]
-    
+    domain_sequences = [f"{domain_data['name']}: {domain_data['sequence']}" for domain_data in evolved_domain_data]
     return render_template('index.html', domain_sequences=domain_sequences, strand_sequences=strand_sequences)
 
 if __name__ == '__main__':

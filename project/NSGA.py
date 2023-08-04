@@ -117,13 +117,17 @@ class NSGA:
             
             relevant_population[:] = offspring
             
-        
+        for individual in relevant_population:
+            self.initial_population[individual.id] = ''.join(individual)
+
         # Reconstruct the final strands
         final_strands = []
         for strand_structure in self.strand_structures:
             strand = ''.join([self.initial_population[dom_name] for dom_name in strand_structure.split()])
             final_strands.append(strand)
-        # for dom_name in strand_structure.split():
-        #     print(dom_name, " = ", self.initial_population[dom_name])
-        return final_strands
+        final_domains = []
+        
+        
+        
+        return final_strands, 
 

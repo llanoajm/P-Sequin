@@ -82,3 +82,10 @@ form input:focus, form textarea:focus, form select:focus {
     outline: none !important;              /* Remove default outline */
     box-shadow: 0 0 8px rgba(138, 138, 138, 0.5) !important;  /* Add a subtle glow effect */
 }
+
+
+.description {
+    font-size: 0.8rem;        /* Smaller font size */
+    color: #aaa;              /* Light grey color */
+    font-style: italic;       /* Italic font style for a subtle touch */
+}

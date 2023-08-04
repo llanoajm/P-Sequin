@@ -7,6 +7,7 @@ class NSGA:
     def __init__(self, initial_population, domain_appearances, strand_structures, domain_names):
         
         self.initial_population = dict(zip(domain_names, initial_population))
+       
         self.domain_appearances = domain_appearances
         self.strand_structures = strand_structures
         
@@ -19,6 +20,7 @@ class NSGA:
         self.toolbox.register("mate", self.variable_length_crossover)
         self.toolbox.register("mutate", self.mutate_sequence)
         self.toolbox.register("select", tools.selNSGA2)
+
     
     def evaluate(self, domain_individual):
         # Get the current sequence of the domain
@@ -78,20 +80,23 @@ class NSGA:
         return individual,
 
     def run(self, generations):
-        
+
+        # Define the initial population
         population = [creator.Individual(list(sequence)) for domain_name, sequence in self.initial_population.items()]
         for domain_name, individual in zip(self.initial_population.keys(), population):
             individual.id = domain_name
         
-        # Evaluate the initial population
-        fitnesses = list(map(self.toolbox.evaluate, population))
-        for ind, fit in zip(population, fitnesses):
+        # Extract all domains from the population that appear in strands
+        relevant_population = [individual for individual in population if self.domain_appearances[individual.id]]
+        
+        # Evaluate the relevant population
+        fitnesses = list(map(self.toolbox.evaluate, relevant_population))
+        for ind, fit in zip(relevant_population, fitnesses):
             ind.fitness.values = fit
-        
-        
-        # Run the genetic algorithm
+
+        # Run the genetic algorithm using the filtered population
         for gen in range(generations):
-            offspring = self.toolbox.select(population, len(population))
+            offspring = self.toolbox.select(relevant_population, len(relevant_population))
             
             offspring = list(map(self.toolbox.clone, offspring))
             
@@ -110,15 +115,15 @@ class NSGA:
             for ind, fit in zip(offspring, fitnesses):
                 ind.fitness.values = fit
             
-            population[:] = offspring
-
+            relevant_population[:] = offspring
+            
+        
         # Reconstruct the final strands
         final_strands = []
-        
         for strand_structure in self.strand_structures:
             strand = ''.join([self.initial_population[dom_name] for dom_name in strand_structure.split()])
             final_strands.append(strand)
-            for dom_name in strand_structure.split():
-                print(dom_name, " = ", self.initial_population[dom_name])
-
+        # for dom_name in strand_structure.split():
+        #     print(dom_name, " = ", self.initial_population[dom_name])
         return final_strands
+

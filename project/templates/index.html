@@ -1,56 +1,96 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>DNA Sequence Generator</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    </head>
+
+<head>
+    <title>DNA Sequence Generator</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
 <body>
-    
-    <h1><span style="color:red;">D</span><span style="color:blue;">N</span><span style="color:green;">A</span>-PSD Sequence Generator</h1>
-    <form action="/generate" method="post">
-        <label>Number of Domains:</label>
-        <input type="number" name="domains_num" required>
-        <br><br>
-        <label>Enter Domain Names (comma-separated):</label>
-        <input type="text" name="domain_names" required>
-        <br><br>
-        <label>Enter Domain Lengths (comma-separated):</label>
-        <input type="text" name="domain_lengths" required>
-        <br><br>
-        <label>Number of Strands:</label>
-        <input type="number" name="strands_num">
-        <br><br>
-        <label>Enter Strands (comma-separated, domains separated by spaces):</label>
-        <input type="text" name="strand_structures">
-        <br><br>
-        <label>Number of Complexes:</label>
-        <input type="number" name="complexes_num">
-        <br><br>
-        <label>Enter Complexes in Dot-Parens Notation (domains comma-separated):</label>
-        <input type="text" name="complex_notations">
-        <br><br>
-        <label>Include 3' Poly-T Overhang:</label>
-        <input type="checkbox" name="overhang" value="yes">
-        <br><br>
-        <input type="submit" value="Generate">
-    </form>
-    <br>
-    <!-- This section will display the generated sequences -->
-    {% if domain_sequences %}
-    <h2>Generated Domain Sequences:</h2>
-    <ul>
-        {% for seq in domain_sequences %}
-        <li>{{ seq }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    {% if strand_sequences %}
-    <h2>Generated Strand Sequences:</h2>
-    <ul>
-        {% for seq in strand_sequences %}
-        <li>{{ seq }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4"><span style="color:orange;">D</span><span style="color:#ccc;">N</span><span style="color:green;">A</span>-PSD Sequence Generator</h1>
+        
+        <div class="card">
+            <div class="card-body">
+                <form action="/generate" method="post">
+                    <h5 class="mb-3">Domain Details:</h5>
+                    <div class="form-group">
+                        <label>Number of Domains:</label>
+                        <input type="number" name="domains_num" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Enter Domain Names (comma-separated):</label>
+                        <input type="text" name="domain_names" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Enter Domain Lengths (comma-separated):</label>
+                        <input type="text" name="domain_lengths" class="form-control" required>
+                    </div>
+
+                    <h5 class="mt-4 mb-3">Strand Details:</h5>
+                    <div class="form-group">
+                        <label>Number of Strands:</label>
+                        <input type="number" name="strands_num" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Enter Strands (comma-separated, domains separated by spaces):</label>
+                        <input type="text" name="strand_structures" class="form-control">
+                    </div>
+
+                    <h5 class="mt-4 mb-3">Complex Details:</h5>
+                    <div class="form-group">
+                        <label>Number of Complexes:</label>
+                        <input type="number" name="complexes_num" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Enter Complexes in Dot-Parens Notation (domains comma-separated):</label>
+                        <input type="text" name="complex_notations" class="form-control">
+                    </div>
+
+                    <div class="form-check mt-4 mb-3">
+                        <input class="form-check-input" type="checkbox" name="overhang" value="yes">
+                        <label class="form-check-label">Include 3' Poly-T Overhang</label>
+                    </div>
+
+                    <input type="submit" value="Generate" class="btn btn-primary">
+                </form>
+            </div>
+        </div>
+
+        <!-- Generated Sequences Display -->
+        {% if domain_sequences %}
+        <div class="card mt-5">
+            <div class="card-body">
+                <h5>Generated Domain Sequences:</h5>
+                <ul>
+                    {% for seq in domain_sequences %}
+                    <li>{{ seq }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if strand_sequences %}
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5>Generated Strand Sequences:</h5>
+                <ul>
+                    {% for seq in strand_sequences %}
+                    <li>{{ seq }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

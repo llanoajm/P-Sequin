@@ -1,7 +1,5 @@
 
 Assign polymerase strands.
-Have id ordered appropiately.
-Have GA take input from flask and flask from GA.
 Add loading animation.
 Add Complex support with peppercorn or hard-code.
 Illustrate complexes automatically.
@@ -10,11 +8,3 @@ Add strands as cells and have flag for whether they bear a polymerase or not.
 Instead of making it average we need a way to inflate the score of a particular strand if it contains a small amount of domains.
 Tackle complement consistency.
 Fix nupack metric and LCS (sequin) metric.
-
-
-
-
-
-
-
-

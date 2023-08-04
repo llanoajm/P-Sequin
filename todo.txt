@@ -7,17 +7,14 @@ Add Complex support with peppercorn or hard-code.
 Illustrate complexes automatically.
 Improve design.
 Add strands as cells and have flag for whether they bear a polymerase or not.
+Instead of making it average we need a way to inflate the score of a particular strand if it contains a small amount of domains.
+Tackle complement consistency.
+Fix nupack metric and LCS (sequin) metric.
 
 
-strand_domains = [next(domain for domain in domains if domain.name == name) for name in structure.split()]
-        strand_sequence = "".join([domain.sequence for domain in strand_domains])
 
-TODO:
 
-- "I have an idea for that note. Instead of making it average we need a way to inflate the score of a particular strand if it contains a small amount of domains."
-- tackle complement consistency.
-- make data types in NSGA object consistent with app.py
-- fix nupack metric and LCS (sequin) metric.
+
 
 
 

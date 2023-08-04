@@ -40,6 +40,7 @@ label, input {
 .card {
     background-color: #2e2e2e;  /* Dark grey background */
     border: 1px solid #444;     /* Darker border for the card */
+    border-radius: 25px; 
 }
 
 .card-body {
@@ -88,4 +89,16 @@ form input:focus, form textarea:focus, form select:focus {
     font-size: 0.8rem;        /* Smaller font size */
     color: #aaa;              /* Light grey color */
     font-style: italic;       /* Italic font style for a subtle touch */
+}
+
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-description {
+    display: flex;
+    align-items: baseline;  /* This will align the logo and the description text vertically */
 }

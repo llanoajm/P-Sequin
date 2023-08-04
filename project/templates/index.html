@@ -7,106 +7,121 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
-
-
-
-
-<div class="container mt-5">
-    <div class="d-flex align-items-center mb-4">
-        <a href="/" class="logo mb-4"> <span style="color: #00a2ed"> P-</span>Sequin</a>
-        <span class="description ml-2">DNA Polymerase Displacement tool</span>
-    </div>
-
-
-</div>
-
-
 <body>
+  
+        
 
     <div class="container mt-5">
-
-   
-
-        
-        <div class="card">
-            <div class="card-body">
-                <form action="/generate" method="post">
-                    <h5 class="mb-3">Domain Details:</h5>
-                    <div class="form-group">
-                        <label>Number of Domains:</label>
-                        <input type="number" name="domains_num" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Enter Domain Names (comma-separated):</label>
-                        <input type="text" name="domain_names" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Enter Domain Lengths (comma-separated):</label>
-                        <input type="text" name="domain_lengths" class="form-control" required>
-                    </div>
-
-                    <h5 class="mt-4 mb-3">Strand Details:</h5>
-                    <div class="form-group">
-                        <label>Number of Strands:</label>
-                        <input type="number" name="strands_num" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>Enter Strands (comma-separated, domains separated by spaces):</label>
-                        <input type="text" name="strand_structures" class="form-control">
-                    </div>
-
-                    <h5 class="mt-4 mb-3">Complex Details:</h5>
-                    <div class="form-group">
-                        <label>Number of Complexes:</label>
-                        <input type="number" name="complexes_num" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>Enter Complexes in Dot-Parens Notation (domains comma-separated):</label>
-                        <input type="text" name="complex_notations" class="form-control">
-                    </div>
-
-                    <div class="form-check mt-4 mb-3">
-                        <input class="form-check-input" type="checkbox" name="overhang" value="yes">
-                        <label class="form-check-label">Include 3' Poly-T Overhang</label>
-                    </div>
-
-                    <input type="submit" value="Generate" class="btn btn-primary">
-                </form>
+        <div class="header-container">
+            <div class="logo-description">
+                <a href="/" class="logo mb-4"> <span style="color: #00a2ed"> P-</span>Sequin</a>
+                <span class="text-muted small ml-3">DNA Polymerase Displacement tool</span>
             </div>
+            <button class="btn btn-dark" style="background-color: green;">Runtime Settings</button>
         </div>
+        <br>
 
-        <!-- Generated Sequences Display -->
-        {% if domain_sequences %}
-        <div class="card mt-5">
-            <div class="card-body">
-                <h5>Generated Domain Sequences:</h5>
-                <ul>
-                    {% for seq in domain_sequences %}
-                    <li>{{ seq }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-        {% endif %}
+        {% if not domain_sequences and not strand_sequences %} <!-- Check if sequences have not been generated -->
+            <!-- INPUT FORM -->
+            <div class="card" id="inputForm">
+                <div class="card-body">
+                    <form action="/generate" method="post">
+                        <h5 class="mb-3">Domain Details:</h5>
+                        <div class="form-group">
+                            <label>Number of Domains:</label>
+                            <input type="number" name="domains_num" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Enter Domain Names (comma-separated):</label>
+                            <input type="text" name="domain_names" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Enter Domain Lengths (comma-separated):</label>
+                            <input type="text" name="domain_lengths" class="form-control" required>
+                        </div>
 
-        {% if strand_sequences %}
-        <div class="card mt-3">
-            <div class="card-body">
-                <h5>Generated Strand Sequences:</h5>
-                <ul>
-                    {% for seq in strand_sequences %}
-                    <li>{{ seq }}</li>
-                    {% endfor %}
-                </ul>
+                        <h5 class="mt-4 mb-3">Strand Details:</h5>
+                        <div class="form-group">
+                            <label>Number of Strands:</label>
+                            <input type="number" name="strands_num" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Enter Strands (comma-separated, domains separated by spaces):</label>
+                            <input type="text" name="strand_structures" class="form-control">
+                        </div>
+
+                        <h5 class="mt-4 mb-3">Complex Details:</h5>
+                        <div class="form-group">
+                            <label>Number of Complexes:</label>
+                            <input type="number" name="complexes_num" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Enter Complexes in Dot-Parens Notation (domains comma-separated):</label>
+                            <input type="text" name="complex_notations" class="form-control">
+                        </div>
+
+                        <div class="form-check mt-4 mb-3">
+                            <input class="form-check-input" type="checkbox" name="overhang" value="yes">
+                            <label class="form-check-label">Include 3' Poly-T Overhang</label>
+                        </div>
+
+                        <input type="submit" value="Generate" class="btn btn-primary">
+                    </form>
+                </div>
             </div>
-        </div>
+        {% else %}
+            <!-- OUTPUT DISPLAY -->
+            {% if domain_sequences %}
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h5>Generated Domain Sequences:</h5>
+                    <ul>
+                        {% for seq in domain_sequences %}
+                        <li>{{ seq }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if strand_sequences %}
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5>Generated Strand Sequences:</h5>
+                    <ul>
+                        {% for seq in strand_sequences %}
+                        <li>{{ seq }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Retry Button -->
+            <div class="text-center mt-3">
+                <button class="btn btn-light" id="retryButton">Regenerate</button>
+                <br>
+                <button onclick="location.href='/'" class="btn btn-warning mt-3">New Design</button>
+            </div>
         {% endif %}
     </div>
+    <br>
+    <br>
 
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- JavaScript to toggle visibility -->
+    <script>
+        $(document).ready(function() {
+            $("#retryButton").click(function() {
+                location.reload();   // Refresh the page
+            });
+        });
+    </script>
+
 </body>
 
 </html>

@@ -1,3 +1,14 @@
+
+Assign polymerase strands.
+Have id ordered appropiately.
+Have GA take input from flask and flask from GA.
+Add loading animation.
+Add Complex support with peppercorn or hard-code.
+Illustrate complexes automatically.
+Improve design.
+Add strands as cells and have flag for whether they bear a polymerase or not.
+
+
 strand_domains = [next(domain for domain in domains if domain.name == name) for name in structure.split()]
         strand_sequence = "".join([domain.sequence for domain in strand_domains])
 

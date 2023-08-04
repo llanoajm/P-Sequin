@@ -1,9 +1,0 @@
-
-Assign polymerase strands.
-Have id ordered appropiately.
-Have GA take input from flask and flask from GA.
-Add loading animation.
-Add Complex support with peppercorn or hard-code.
-Illustrate complexes automatically.
-Improve design.
-Add strands as cells and have flag for whether they bear a polymerase or not.

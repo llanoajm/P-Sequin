@@ -102,3 +102,44 @@ form input:focus, form textarea:focus, form select:focus {
     display: flex;
     align-items: baseline;  /* This will align the logo and the description text vertically */
 }
+
+
+
+
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;  /* This ensures the navbar stays on top of other content */
+    /* background-color: #333; or whatever background color you prefer */
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+}
+.navbar::on
+
+.logo {
+    /* ... existing styles ... */
+    margin-bottom: 0; /* Removing the margin since it's now in a navbar */
+}
+
+.runtime-settings {
+    color: #ffffff;
+    background-color: #555;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none; /* since it's a link */
+    transition: background-color 0.3s;
+}
+
+.runtime-settings:hover {
+    background-color: #444444;
+    text-decoration: none !important;
+    color: white;
+}
+
+

@@ -149,7 +149,7 @@
             // Create new input for strands in the complex
             var strandsInput = document.createElement('input');
             strandsInput.type = 'text';
-            strandsInput.placeholder = 'Enter the names of the strands appearing in the complex. Left to right, top to bottom.';
+            strandsInput.placeholder = 'Enter the names of the strands appearing in the complex. Enter in the order of the dot-parens specification.';
             strandsInput.className = 'form-control mt-2';
             strandsInput.name = 'complex_strands[]';
 
@@ -162,8 +162,8 @@
 
             // Append div and inputs to complex-entry div
             complexDiv.appendChild(nameDiv);
-            complexDiv.appendChild(strandsInput);
             complexDiv.appendChild(newInput);
+            complexDiv.appendChild(strandsInput);
 
             // Append complex-entry div to complex-inputs div
             complexInputs.appendChild(complexDiv);

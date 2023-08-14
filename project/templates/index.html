@@ -5,6 +5,9 @@
     <title>DNA Sequence Generator</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon"
+      type="image/ico"
+      href="static/favicon.png">
 </head>
 
 <body>
@@ -45,7 +48,7 @@
 
                     <!-- Complex Details Section -->
                     <div class="complex-section mt-4">
-                        <h5>Enter Complexes:</h5>
+                        <h5>Enter Target Complexes:</h5>
                         <div class="complex-inputs">
                             <!-- Dynamic complex inputs will be appended here -->
                         </div>
@@ -128,34 +131,51 @@
             strandInputs.appendChild(newInput);
         });
 
+        
         // JavaScript to dynamically add complex inputs
         document.getElementById('addComplex').addEventListener('click', function() {
             var complexName = prompt("Please enter the name of the complex:");
             var complexInputs = document.querySelector('.complex-inputs');
+            
+            // Create a div for the complex name and strands
+            var complexDiv = document.createElement('div');
+            complexDiv.className = 'complex-entry mt-2';
 
             // Create a div for the complex name
             var nameDiv = document.createElement('div');
             nameDiv.className = 'complex-name mt-2';
             nameDiv.innerText = complexName;
 
+            // Create new input for strands in the complex
+            var strandsInput = document.createElement('input');
+            strandsInput.type = 'text';
+            strandsInput.placeholder = 'Enter the names of the strands appearing in the complex. Left to right, top to bottom.';
+            strandsInput.className = 'form-control mt-2';
+            strandsInput.name = 'complex_strands[]';
+
             // Create new input for complex
             var newInput = document.createElement('input');
             newInput.type = 'text';
-            newInput.placeholder = 'Enter complex. Domains separated by spaces';
+            newInput.placeholder = 'Enter complex structure in dot parens notation.';
             newInput.className = 'form-control mt-2';
             newInput.name = 'complex_notation[]';
 
-            // Append name and input to complex-inputs div
-            complexInputs.appendChild(nameDiv);
-            complexInputs.appendChild(newInput);
+            // Append div and inputs to complex-entry div
+            complexDiv.appendChild(nameDiv);
+            complexDiv.appendChild(strandsInput);
+            complexDiv.appendChild(newInput);
+
+            // Append complex-entry div to complex-inputs div
+            complexInputs.appendChild(complexDiv);
         });
+
 
         // Other JavaScript code
         $(document).ready(function() {
             $("#retryButton").click(function() {
                 location.reload(); // Refresh the page
             });
-        });
+        });        
     </script>
 </body>
 

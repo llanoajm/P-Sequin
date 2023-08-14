@@ -12,7 +12,6 @@ def index():
 @app.route('/generate', methods=['POST'])
 def generate():
     domain_appearances = {}
-    print(request.form)
     domains_num = int(request.form['domains_num'])
     domain_names = request.form['domain_names'].split(',')
     
@@ -22,7 +21,7 @@ def generate():
     new_domain_names = []
     for i in range(domains_num):
         name = domain_names[i]
-        domain_appearances[name] = []  # Initialize the list for each domain
+        domain_appearances[name] = []
         domain_appearances[name + '\''] = []
         length = domain_lengths[i]
         sequence, complement_sequence = generate_unique_domain_and_complement(length)
@@ -36,20 +35,21 @@ def generate():
 
     domain_sequences = [f"{domain.name}: {domain.sequence}" for domain in domains]
     
-    
     strand_structures = request.form.getlist('strand_structure[]')
+    complex_notations = request.form.getlist('complex_notation[]')  # Getting complexes from the form
     
     is_polymerase = request.form.getlist('is_polymerase') 
-    
-    
     with_overhang = 'overhang' in request.form
 
-    
-    for index, structure in enumerate(strand_structures):  # Added enumeration for index reference
-        # Update the domain_appearances dictionary
+    for index, structure in enumerate(strand_structures):
         for domain_name in structure.split():
-            domain_appearances[domain_name].append(index)  # Appending the index (or structure itself if desired)
-        
+            domain_appearances[domain_name].append(index)
+
+    # Process complex notations as needed
+    complexes = []  # Create a list to store the complexes
+    for notation in complex_notations:
+        # Process each complex notation here
+        complexes.append(notation)  # Add the complex to the list
 
     nsga = NSGA(initial_population, domain_appearances, strand_structures, new_domain_names)
     
@@ -58,6 +58,7 @@ def generate():
 
     strand_sequences = [f"Strand {i+1}: {strand}" for i, strand in enumerate(evolved_strands)]
     domain_sequences = [f"{domain_data['name']}: {domain_data['sequence']}" for domain_data in evolved_domain_data]
+
     return render_template('index.html', domain_sequences=domain_sequences, strand_sequences=strand_sequences)
 
 if __name__ == '__main__':

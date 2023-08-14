@@ -13,7 +13,6 @@ class NSGA:
        
         self.domain_appearances = domain_appearances
         self.strand_structures = strand_structures
-        print("Number of strand structures = ",len(self.strand_structures))
         
         # Define the fitness and individual types inside the constructor
         creator.create("FitnessMulti", base.Fitness, weights=(-1.0, -1.0, -1.0, -1.0, -1.0, -1.0))
@@ -135,7 +134,6 @@ class NSGA:
             
         for individual in relevant_population:
             self.initial_population[individual.id] = ''.join(individual)
-            print(individual.id, " = ", individual)
 
         # Reconstruct the final strands
         final_strands = []
@@ -144,5 +142,6 @@ class NSGA:
             final_strands.append(strand)
         # Extract the evolved domain sequences
         evolved_domain_sequences = [{"name": domain_name, "sequence": sequence} for domain_name, sequence in self.initial_population.items()]
+        
         
         return final_strands, evolved_domain_sequences

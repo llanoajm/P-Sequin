@@ -8,107 +8,101 @@
 </head>
 
 <body>
-  
-        
+
     <div class="navbar">
-            <a href="/" class="logo mb-4"> <span style="color: #00a2ed"> P-</span>Sequin</a>
-         
-            <a href="#settings" class="runtime-settings">Runtime Settings</a>
+        <a href="/" class="logo mb-4"> <span style="color: #00a2ed"> P-</span>Sequin</a>
+
+        <a href="#settings" class="runtime-settings">Runtime Settings</a>
     </div>
-    <h1> Polymerase</h1>
+    <h1> Reaction Network Design</h1>
 
     <div class="container mt-5">
-        
 
         {% if not domain_sequences and not strand_sequences %} <!-- Check if sequences have not been generated -->
-            <!-- INPUT FORM -->
-            <div class="card" id="inputForm">
-                <div class="card-body">
-                    <form action="/generate" method="post">
-                        <h5 class="mb-3">Domain Details:</h5>
-                        <div class="form-group">
-                            <label>Number of Domains:</label>
-                            <input type="number" name="domains_num" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Enter Domain Names (comma-separated):</label>
-                            <input type="text" name="domain_names" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Enter Domain Lengths (comma-separated):</label>
-                            <input type="text" name="domain_lengths" class="form-control" required>
-                        </div>
+        <!-- INPUT FORM -->
+        <div class="card" id="inputForm">
+            <div class="card-body">
+                <form action="/generate" method="post">
+                    <h5 class="mb-3">Domain Details:</h5>
+                    <div class="form-group">
+                        <label>Number of Domains:</label>
+                        <input type="number" name="domains_num" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Enter Domain Names (comma-separated):</label>
+                        <input type="text" name="domain_names" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Enter Domain Lengths (comma-separated):</label>
+                        <input type="text" name="domain_lengths" class="form-control" required>
+                    </div>
 
-                        <!-- DNA Strands Section -->
-                        <div class="strand-section mt-4">
-                            <h5>Enter DNA Strands:</h5>
-                            <div class="strand-inputs">
-                                <!-- Dynamic strand inputs will be appended here -->
-                            </div>
-                            <button type="button" class="btn btn-secondary mt-2" id="addStrand">Add Strand</button>
+                    <!-- DNA Strands Section -->
+                    <div class="strand-section mt-4">
+                        <h5>Enter DNA Strands:</h5>
+                        <div class="strand-inputs">
+                            <!-- Dynamic strand inputs will be appended here -->
                         </div>
+                        <button type="button" class="btn btn-secondary mt-2" id="addStrand">Add Strand</button>
+                    </div>
 
-
-                        
-
-                        <h5 class="mt-4 mb-3">Complex Details:</h5>
-                        <div class="form-group">
-                            <label>Number of Complexes:</label>
-                            <input type="number" name="complexes_num" class="form-control">
+                    <!-- Complex Details Section -->
+                    <div class="complex-section mt-4">
+                        <h5>Enter Complexes:</h5>
+                        <div class="complex-inputs">
+                            <!-- Dynamic complex inputs will be appended here -->
                         </div>
-                        <div class="form-group">
-                            <label>Enter Complexes in Dot-Parens Notation (domains comma-separated):</label>
-                            <input type="text" name="complex_notations" class="form-control">
-                        </div>
+                        <button type="button" class="btn btn-secondary mt-2" id="addComplex">Add Complex</button>
+                    </div>
 
-                        <div class="form-check mt-4 mb-3">
-                            <input class="form-check-input" type="checkbox" name="overhang" value="yes">
-                            <label class="form-check-label">Include 3' Poly-T Overhang</label>
-                        </div>
+                    <div class="form-check mt-4 mb-3">
+                        <input class="form-check-input" type="checkbox" name="overhang" value="yes">
+                        <label class="form-check-label">Include 3' Poly-T Overhang</label>
+                    </div>
 
-                        <input type="submit" value="Generate" class="btn btn-primary">
-                    </form>
-                </div>
+                    <input type="submit" value="Generate" class="btn btn-primary">
+                </form>
             </div>
+        </div>
         {% else %}
-            <!-- OUTPUT DISPLAY -->
-            {% if domain_sequences %}
-            <div class="card mt-5">
-                <div class="card-body">
-                    <h5>Generated Domain Sequences:</h5>
-                    <ul>
-                        {% for seq in domain_sequences %}
-                        <li>{{ seq }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
+        <!-- OUTPUT DISPLAY -->
+        {% if domain_sequences %}
+        <div class="card mt-5">
+            <div class="card-body">
+                <h5>Generated Domain Sequences:</h5>
+                <ul>
+                    {% for seq in domain_sequences %}
+                    <li>{{ seq }}</li>
+                    {% endfor %}
+                </ul>
             </div>
-            {% endif %}
+        </div>
+        {% endif %}
 
-            {% if strand_sequences %}
-            <div class="card mt-3">
-                <div class="card-body">
-                    <h5>Generated Strand Sequences:</h5>
-                    <ul>
-                        {% for seq in strand_sequences %}
-                        <li>{{ seq }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
+        {% if strand_sequences %}
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5>Generated Strand Sequences:</h5>
+                <ul>
+                    {% for seq in strand_sequences %}
+                    <li>{{ seq }}</li>
+                    {% endfor %}
+                </ul>
             </div>
-            {% endif %}
+        </div>
+        {% endif %}
 
-            <!-- Retry Button -->
-            <div class="text-center mt-3">
-                <button class="btn btn-light" id="retryButton">Regenerate</button>
-                <br>
-                <button onclick="location.href='/'" class="btn btn-warning mt-3">New Design</button>
-            </div>
+        <!-- Retry Button -->
+        <div class="text-center mt-3">
+            <button class="btn btn-light" id="retryButton">Regenerate</button>
+            <br>
+            <button onclick="location.href='/'" class="btn btn-warning mt-3">New Design</button>
+        </div>
         {% endif %}
     </div>
     <br>
     <br>
-   
+
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -121,35 +115,26 @@
         document.getElementById('addStrand').addEventListener('click', function() {
             var strandInputs = document.querySelector('.strand-inputs');
             
-            // Create new input for strand
             var newInput = document.createElement('input');
             newInput.type = 'text';
             newInput.placeholder = 'Enter strand. Domains separated by spaces';
             newInput.className = 'form-control mt-2';
-            newInput.name = 'strand_structure[]'; // set the name for the strand input
+            newInput.name = 'strand_structure[]';
             
-            // Create div for checkbox and label
-            var checkDiv = document.createElement('div');
-            checkDiv.className = 'form-check mt-2';
-            
-            // Create checkbox for polymerase
-            var checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.className = 'form-check-input';
-            checkbox.name = 'is_polymerase[]'; // set the name for the checkbox
-            
-            var checkboxLabel = document.createElement('label');
-            checkboxLabel.className = 'form-check-label ml-2';
-            checkboxLabel.innerText = 'Carries Polymerase';
-            checkboxLabel.htmlFor = checkbox.id;  // associate label with checkbox
-
-            // Appending checkbox and label to the div
-            checkDiv.appendChild(checkbox);
-            checkDiv.appendChild(checkboxLabel);
-
-            // Append new input and checkbox div to strand-inputs div
             strandInputs.appendChild(newInput);
-            strandInputs.appendChild(checkDiv);
+        });
+
+        // JavaScript to dynamically add complex inputs
+        document.getElementById('addComplex').addEventListener('click', function() {
+            var complexInputs = document.querySelector('.complex-inputs');
+            
+            var newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.placeholder = 'Enter in dot parens notation. Strands should match the ones above.';
+            newInput.className = 'form-control mt-2';
+            newInput.name = 'complex_notation[]';
+            
+            complexInputs.appendChild(newInput);
         });
 
         $(document).ready(function() {
@@ -157,24 +142,9 @@
                 location.reload();   // Refresh the page
             });
         });
-
-        $(document).ready(function() {
-            $("#retryButton").click(function() {
-                location.reload();   // Refresh the page
-            });
-        });
-
-
-
-
-
 
     </script>
 
-   
-    
-
-    
 </body>
 
 </html>

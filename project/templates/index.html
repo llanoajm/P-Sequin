@@ -8,18 +8,15 @@
 </head>
 
 <body>
-
+  
     <div class="navbar">
         <a href="/" class="logo mb-4"> <span style="color: #00a2ed"> P-</span>Sequin</a>
-
         <a href="#settings" class="runtime-settings">Runtime Settings</a>
     </div>
-    <h1> Reaction Network Design</h1>
+    <h1> Polymerase</h1>
 
     <div class="container mt-5">
-
         {% if not domain_sequences and not strand_sequences %} <!-- Check if sequences have not been generated -->
-        <!-- INPUT FORM -->
         <div class="card" id="inputForm">
             <div class="card-body">
                 <form action="/generate" method="post">
@@ -46,8 +43,8 @@
                         <button type="button" class="btn btn-secondary mt-2" id="addStrand">Add Strand</button>
                     </div>
 
-                    <!-- Complex Details Section -->
-                    <div class="complex-section mt-4">
+                     <!-- Complex Details Section -->
+                     <div class="complex-section mt-4">
                         <h5>Enter Complexes:</h5>
                         <div class="complex-inputs">
                             <!-- Dynamic complex inputs will be appended here -->
@@ -102,25 +99,33 @@
     </div>
     <br>
     <br>
-
+   
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- JavaScript to toggle visibility -->
-    <script>
 
+    <script>
         // JavaScript to dynamically add strand inputs
         document.getElementById('addStrand').addEventListener('click', function() {
+            var strandName = prompt("Please enter the name of the strand:");
             var strandInputs = document.querySelector('.strand-inputs');
             
+            // Create a div for the strand name
+            var nameDiv = document.createElement('div');
+            nameDiv.className = 'strand-name mt-2';
+            nameDiv.innerText = strandName;
+
+            // Create new input for strand
             var newInput = document.createElement('input');
             newInput.type = 'text';
             newInput.placeholder = 'Enter strand. Domains separated by spaces';
             newInput.className = 'form-control mt-2';
             newInput.name = 'strand_structure[]';
-            
+
+            // Append name and input to strand-inputs div
+            strandInputs.appendChild(nameDiv);
             strandInputs.appendChild(newInput);
         });
 
@@ -130,21 +135,21 @@
             
             var newInput = document.createElement('input');
             newInput.type = 'text';
-            newInput.placeholder = 'Enter in dot parens notation. Strands should match the ones above.';
+            newInput.placeholder = 'Enter complex. Domains separated by spaces';
             newInput.className = 'form-control mt-2';
             newInput.name = 'complex_notation[]';
             
             complexInputs.appendChild(newInput);
         });
 
+
+        // Other JavaScript code
         $(document).ready(function() {
             $("#retryButton").click(function() {
                 location.reload();   // Refresh the page
             });
         });
-
     </script>
-
 </body>
 
 </html>

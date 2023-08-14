@@ -14,7 +14,9 @@
             <a href="/" class="logo mb-4"> <span style="color: #00a2ed"> P-</span>Sequin</a>
          
             <a href="#settings" class="runtime-settings">Runtime Settings</a>
-        </div>
+    </div>
+    <h1> Polymerase</h1>
+
     <div class="container mt-5">
         
 
@@ -37,15 +39,17 @@
                             <input type="text" name="domain_lengths" class="form-control" required>
                         </div>
 
-                        <h5 class="mt-4 mb-3">Strand Details:</h5>
-                        <div class="form-group">
-                            <label>Number of Strands:</label>
-                            <input type="number" name="strands_num" class="form-control">
+                        <!-- DNA Strands Section -->
+                        <div class="strand-section mt-4">
+                            <h5>Enter DNA Strands:</h5>
+                            <div class="strand-inputs">
+                                <!-- Dynamic strand inputs will be appended here -->
+                            </div>
+                            <button type="button" class="btn btn-secondary mt-2" id="addStrand">Add Strand</button>
                         </div>
-                        <div class="form-group">
-                            <label>Enter Strands (comma-separated, domains separated by spaces):</label>
-                            <input type="text" name="strand_structures" class="form-control">
-                        </div>
+
+
+                        
 
                         <h5 class="mt-4 mb-3">Complex Details:</h5>
                         <div class="form-group">
@@ -112,11 +116,59 @@
 
     <!-- JavaScript to toggle visibility -->
     <script>
+
+        // JavaScript to dynamically add strand inputs
+        document.getElementById('addStrand').addEventListener('click', function() {
+            var strandInputs = document.querySelector('.strand-inputs');
+            
+            // Create new input for strand
+            var newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.placeholder = 'Enter strand. Domains separated by spaces';
+            newInput.className = 'form-control mt-2';
+            newInput.name = 'strand_structure[]'; // set the name for the strand input
+            
+            // Create div for checkbox and label
+            var checkDiv = document.createElement('div');
+            checkDiv.className = 'form-check mt-2';
+            
+            // Create checkbox for polymerase
+            var checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'form-check-input';
+            checkbox.name = 'is_polymerase[]'; // set the name for the checkbox
+            
+            var checkboxLabel = document.createElement('label');
+            checkboxLabel.className = 'form-check-label ml-2';
+            checkboxLabel.innerText = 'Carries Polymerase';
+            checkboxLabel.htmlFor = checkbox.id;  // associate label with checkbox
+
+            // Appending checkbox and label to the div
+            checkDiv.appendChild(checkbox);
+            checkDiv.appendChild(checkboxLabel);
+
+            // Append new input and checkbox div to strand-inputs div
+            strandInputs.appendChild(newInput);
+            strandInputs.appendChild(checkDiv);
+        });
+
         $(document).ready(function() {
             $("#retryButton").click(function() {
                 location.reload();   // Refresh the page
             });
         });
+
+        $(document).ready(function() {
+            $("#retryButton").click(function() {
+                location.reload();   // Refresh the page
+            });
+        });
+
+
+
+
+
+
     </script>
 
    

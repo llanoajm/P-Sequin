@@ -2,6 +2,9 @@ import random
 from deap import base, creator, tools
 from metrics import *
 from utils import *
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
 
 class NSGA:
     def __init__(self, initial_population, domain_appearances, strand_structures, domain_names):
@@ -10,6 +13,7 @@ class NSGA:
        
         self.domain_appearances = domain_appearances
         self.strand_structures = strand_structures
+        print("Number of strand structures = ",len(self.strand_structures))
         
         # Define the fitness and individual types inside the constructor
         creator.create("FitnessMulti", base.Fitness, weights=(-1.0, -1.0, -1.0, -1.0, -1.0, -1.0))
@@ -20,8 +24,16 @@ class NSGA:
         self.toolbox.register("mate", self.variable_length_crossover)
         self.toolbox.register("mutate", self.mutate_sequence)
         self.toolbox.register("select", tools.selNSGA2)
+        self.avg_fitness_over_generations = []
+        
 
-    
+    def plot_fitness_over_generations(self):
+        plt.plot(self.avg_fitness_over_generations)
+        plt.xlabel('Generation')
+        plt.ylabel('Average Fitness')
+        plt.title('Fitness Evolution Over Generations')
+        plt.show()
+        
     def evaluate(self, domain_individual):
         # Get the current sequence of the domain
         domain_sequence = ''.join(domain_individual)
@@ -116,6 +128,10 @@ class NSGA:
                 ind.fitness.values = fit
             
             relevant_population[:] = offspring
+            # Calculate average fitness for this generation
+            avg_fitness = sum(ind.fitness.values[0] for ind in relevant_population) / len(relevant_population)
+            self.avg_fitness_over_generations.append(avg_fitness)
+
             
         for individual in relevant_population:
             self.initial_population[individual.id] = ''.join(individual)

@@ -12,6 +12,7 @@ def index():
 @app.route('/generate', methods=['POST'])
 def generate():
     domain_appearances = {}
+    print(request.form)
     domains_num = int(request.form['domains_num'])
     domain_names = request.form['domain_names'].split(',')
     
@@ -36,9 +37,10 @@ def generate():
     domain_sequences = [f"{domain.name}: {domain.sequence}" for domain in domains]
     
     
+    strand_structures = request.form.getlist('strand_structure[]')
     
-    strands_num = int(request.form['strands_num'])
-    strand_structures = request.form['strand_structures'].split(',')
+    is_polymerase = request.form.getlist('is_polymerase') 
+    
     
     with_overhang = 'overhang' in request.form
 

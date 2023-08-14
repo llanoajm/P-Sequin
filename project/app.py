@@ -37,6 +37,8 @@ def generate():
     
     strand_structures = request.form.getlist('strand_structure[]')
     complex_notations = request.form.getlist('complex_notation[]')  # Getting complexes from the form
+    complex_strands_input = request.form.getlist('complex_strands[]')
+    complex_strands = [strands.split(',') for strands in complex_strands_input]
     
     is_polymerase = request.form.getlist('is_polymerase') 
     with_overhang = 'overhang' in request.form

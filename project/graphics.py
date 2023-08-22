@@ -63,16 +63,25 @@ def draw_complex(matched_strands):
     x_bottom, y_bottom = 0, 0.3
 
     for idx, strand_details in enumerate(matched_strands):
-        strand = strand_details['sequence']
+        strand_sequence = strand_details['sequence'].split(' ')
         orientation = 'right-to-left' if idx % 2 == 0 else 'left-to-right'
         floor = 'top' if idx % 4 < 2 else 'bottom'
 
-        if floor == 'top':
-            ax.text(x_top, y_top, strand[::-1] if orientation == 'right-to-left' else strand, fontsize=12, color=colors[idx])
-            x_top -= 0.3  # Adjust as needed
-        else:
-            ax.text(x_bottom, y_bottom, strand[::-1] if orientation == 'right-to-left' else strand, fontsize=12, color=colors[idx])
-            x_bottom += 0.3  # Adjust as needed
+        if orientation == 'right-to-left':
+            strand_sequence.reverse()
+
+        for domain in strand_sequence:
+            if floor == 'top':
+                ax.text(x_top, y_top, domain, fontsize=12, color=colors[idx])
+                x_top -= 0.1  # Adjust as needed
+            else:
+                ax.text(x_bottom, y_bottom, domain, fontsize=12, color=colors[idx])
+                x_bottom += 0.1  # Adjust as needed
+
+        # Reset positions for next strand
+        if floor == 'bottom':
+            x_top, y_top = 1, 0.6
+            x_bottom, y_bottom = 0, 0.3
 
     plt.show()
 

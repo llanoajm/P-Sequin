@@ -61,7 +61,12 @@ def draw_complex(matched_strands):
     # Starting positions
     x_top, y_top = 1, 0.6
     x_bottom, y_bottom = 0, 0.3
-
+    if len(matched_strands) == 3:
+        temp = matched_strands[1]
+        matched_strands[1] = matched_strands[0]
+        matched_strands[0] = matched_strands[2]
+        matched_strands[2] = temp
+        
     for idx, strand_details in enumerate(matched_strands):
         strand_sequence = strand_details['sequence'].split(' ')
         orientation = 'right-to-left' if idx % 2 == 0 else 'left-to-right'

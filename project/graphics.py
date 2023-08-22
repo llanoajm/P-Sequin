@@ -61,19 +61,14 @@ def draw_complex(matched_strands):
     # Starting positions
     x_top, y_top = 1, 0.6
     x_bottom, y_bottom = 0, 0.3
+
+    # Swap the positions of the strands if there are three strands
     if len(matched_strands) == 3:
-        temp = matched_strands[1]
-        matched_strands[1] = matched_strands[0]
-        matched_strands[0] = matched_strands[2]
-        matched_strands[2] = temp
-        
+        matched_strands[0], matched_strands[1], matched_strands[2] = matched_strands[2], matched_strands[0], matched_strands[1]
+
     for idx, strand_details in enumerate(matched_strands):
         strand_sequence = strand_details['sequence'].split(' ')
-        orientation = 'right-to-left' if idx % 2 == 0 else 'left-to-right'
         floor = 'top' if idx % 4 < 2 else 'bottom'
-
-        if orientation == 'right-to-left':
-            strand_sequence.reverse()
 
         for domain in strand_sequence:
             if floor == 'top':
@@ -92,3 +87,4 @@ def draw_complex(matched_strands):
 
 # Example usage
 draw_complex(matched_strands)
+

@@ -102,6 +102,12 @@
     </div>
     <br>
     <br>
+
+    <!-- OUTPUT DISPLAY FOR COMPLEXES -->
+
+
+    <br>
+    <br>
    
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -146,12 +152,7 @@
             nameDiv.className = 'complex-name mt-2';
             nameDiv.innerText = complexName;
 
-            // Create new input for strands in the complex
-            var strandsInput = document.createElement('input');
-            strandsInput.type = 'text';
-            strandsInput.placeholder = 'Enter the names of the strands appearing in the complex. Enter in the order of the dot-parens specification.';
-            strandsInput.className = 'form-control mt-2';
-            strandsInput.name = 'complex_strands[]';
+            
 
             // Create new input for complex
             var newInput = document.createElement('input');
@@ -163,7 +164,7 @@
             // Append div and inputs to complex-entry div
             complexDiv.appendChild(nameDiv);
             complexDiv.appendChild(newInput);
-            complexDiv.appendChild(strandsInput);
+            
 
             // Append complex-entry div to complex-inputs div
             complexInputs.appendChild(complexDiv);

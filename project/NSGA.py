@@ -40,10 +40,19 @@ class NSGA:
         # Retrieve the IDs of the strands where this domain appears
         strand_ids = self.domain_appearances[domain_individual.id]
         
+        
+        num_metrics = 6  # Update this value to match the number of metrics you are using
+        total_scores = [0] * num_metrics
+        total_weight = 0
+        
         # For each strand ID, reconstruct the strand using the current sequences of its constituent domains
-        total_scores = [0, 0, 0, 0, 0, 0]
         for strand_id in strand_ids:
             strand_structure = self.strand_structures[strand_id]
+            
+            # Determine the weight for this strand based on the number of distinct domain types to assign greater significance to domains that influence a strand's score more heavily.
+            
+            distinct_domain_types = set(domain_name.split("'")[0] for domain_name in strand_structure.split())
+            weight = 1 / len(distinct_domain_types)
 
             reconstructed_strand = ''.join([self.initial_population[dom_name] for dom_name in strand_structure.split()])
             # Evaluate the performance of the reconstructed strand
@@ -56,10 +65,15 @@ class NSGA:
             
             # Combine the scores from all strands for an overall evaluation of the domain
             scores = [lcs_value, stability, secondary_structures, cross_hybridization, palindrome_score, gc_content_score]
-            total_scores = [sum(x) for x in zip(total_scores, scores)]
+            weighted_scores = [score * weight for score in scores]
+            total_scores = [sum(x) for x in zip(total_scores, weighted_scores)]
+            total_weight += weight
         
-        # Average the scores over all strands
-        average_scores = [score / len(strand_ids) for score in total_scores]
+    # Normalize by total weight
+        if total_weight == 0:
+            # Handle the special case here. You can return a default value or raise a specific exception.
+            return (0, 0, 0, 0, 0, 0)  # Example default value
+        average_scores = [score / total_weight for score in total_scores]
         return tuple(average_scores)
 
     def variable_length_crossover(self, parent1, parent2):
@@ -89,6 +103,31 @@ class NSGA:
         available_bases = set(["A", "T", "C", "G"]) - {individual[mutation_point]}
         individual[mutation_point] = random.choice(list(available_bases))
         return individual,
+    def reconcile_complementary_domains(self, relevant_population):
+        # Iterate through the domain names and sequences in pairs (assuming keys are paired with their complements)
+        for domain_name, domain_sequence in list(relevant_population.items())[::2]:
+            complement_name = domain_name + '\''  # Assuming complement names are appended with a prime symbol
+            complement_sequence = relevant_population[complement_name]
+
+            # Evaluate the domain and complement
+            domain_individual = creator.Individual(list(domain_sequence))
+            domain_individual.id = domain_name
+            complement_individual = creator.Individual(list(complement_sequence))
+            complement_individual.id = complement_name
+
+            domain_score = sum(self.evaluate(domain_individual))
+            complement_score = sum(self.evaluate(complement_individual))
+
+            # Reconcile the sequences
+            if domain_score > complement_score:  # If the domain is worse
+                new_domain_sequence = compute_complement(complement_sequence)
+                relevant_population[domain_name] = new_domain_sequence
+            else:  # If the complement is worse
+                new_complement_sequence = compute_complement(domain_sequence)
+                relevant_population[complement_name] = new_complement_sequence
+
+
+
 
     def run(self, generations):
 
@@ -134,6 +173,8 @@ class NSGA:
             
         for individual in relevant_population:
             self.initial_population[individual.id] = ''.join(individual)
+            
+        self.reconcile_complementary_domains(self.initial_population)
 
         # Reconstruct the final strands
         final_strands = []

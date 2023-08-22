@@ -32,6 +32,22 @@ def generate_unique_domain_and_complement(length):
             generated_sequences.add(complement)
             return sequence, complement
         
+def represent_complex(strands, dot_paren):
+    strands_list = strands.split(',')
+    representation = ""
+    
+    # Example logic for processing the strands and dot-paren notation
+    # This logic can be customized based on the exact structure and requirements
+    for i, char in enumerate(dot_paren):
+        if char == '.':
+            representation += strands_list[i % len(strands_list)] + " "
+        elif char == '(':
+            representation += "(" + strands_list[i % len(strands_list)] + " "
+        elif char == ')':
+            representation += strands_list[i % len(strands_list)] + ") "
+    
+    return representation
+
         
 
         

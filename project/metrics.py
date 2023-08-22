@@ -22,7 +22,7 @@ def check_secondary_structures(sequence):
 
 
 def check_if_palindrome(sequence):
-    return float(not (sequence == sequence[::-1]))
+    return float(sequence == sequence[::-1])
 
 def check_gc_content(sequence):
     gc_content = sum(1 for base in sequence if base in ["G", "C"]) / len(sequence)
@@ -32,8 +32,11 @@ def check_gc_content(sequence):
 
 
 
+test_sequences = ["ATCG", "TATC", "GCTA", "TAGC"]
 
-
+for seq in test_sequences:
+    stability_result = check_gc_content(seq)
+    print(f"Stability of {seq}: {stability_result}")
 
 
 

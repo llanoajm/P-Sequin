@@ -48,31 +48,82 @@ for strand_sequence in obtained_strands:
     if strand_details:
         matched_strands.append(strand_details)
 
-# Define coordinates for the quadrants
-quadrant_coordinates = {
+# Define coordinates for the middle of each quadrant
+quadrant_middle_coordinates = {
     0: (-0.5, 0.5),  # Top-left quadrant for Strand 1
     1: (0, -0.5),    # Bottom quadrant for Strand 2
     2: (0.5, 0.5)    # Top-right quadrant for Strand 3
 }
 
+# Determine the maximum number of domains in any strand to set a universal spacing
+max_domains = max(len(strand['sequence'].split()) for strand in matched_strands)
+universal_spacing = 1.0 / (max_domains + 1)
+
+# Update the function to use the universal spacing
+def calculate_aligned_domain_coordinates(strand, index, quadrant_middle, left_bound=None, right_bound=None):
+    # Get the sequence of domains in the strand
+    domains = strand['sequence'].split()
+    
+    # Determine the direction for allocating coordinates (right to left or left to right)
+    direction = -1 if index in [0, 2] else 1
+    
+    # Calculate the X and Y coordinates for each domain
+    if left_bound is not None and right_bound is not None:
+        coordinates = [(left_bound + i * universal_spacing * direction, quadrant_middle[1]) for i in range(len(domains))]
+    else:
+        coordinates = [(quadrant_middle[0] + direction * (i + 1) * universal_spacing, quadrant_middle[1]) for i in range(len(domains))]
+    
+    return list(zip(domains, coordinates))
+
+# Step 1: Find the x-coordinate of the "mc" domain in Strand 1
+initial_domain_coordinates = []
+for index, strand in enumerate(matched_strands):
+    initial_domain_coordinates.extend(calculate_aligned_domain_coordinates(strand, index, quadrant_middle_coordinates[index]))
+
+mc_x_coordinate = initial_domain_coordinates[len(matched_strands[0]['sequence'].split()) - 1][1][0]
+
+# Step 2 & 3: Set the x-coordinate of the leftmost domain in Strand 2 and find the new right bound for Strand 2
+left_bound_strand2 = mc_x_coordinate
+strand2_domains = matched_strands[1]['sequence'].split()
+right_bound_strand2 = left_bound_strand2 + (len(strand2_domains) - 1) * universal_spacing
+
+# Step 4: Use the new bounds to calculate coordinates for all strands with the correct alignments
+# Calculate the x-coordinate for the last domain in strand 3
+strand1_domains_count = len(matched_strands[0]['sequence'].split())
+
+
+# Setting the x-coordinate of the last domain of strand 3
+last_domain_strand3_x = (strand1_domains_count) * universal_spacing - 0.2
+print(universal_spacing)
+
+# Adjusting the middle coordinate of quadrant III to set the correct x-coordinate for the last domain of strand 3
+quadrant_middle_coordinates[2] = (last_domain_strand3_x - (len(matched_strands[2]['sequence'].split()) - 1) * universal_spacing, quadrant_middle_coordinates[2][1])
+
+# Calculate coordinates for all strands with the correct alignments
+all_domain_coordinates = []
+for index, strand in enumerate(matched_strands):
+    if index == 0:  # Strand 1 in quadrant I
+        all_domain_coordinates.extend(calculate_aligned_domain_coordinates(strand, index, quadrant_middle_coordinates[index]))
+    elif index == 2:  # Strand 3 in quadrant III
+        all_domain_coordinates.extend(calculate_aligned_domain_coordinates(strand, index, quadrant_middle_coordinates[index]))
+    else:  # Strand 2 in quadrant II
+        all_domain_coordinates.extend(calculate_aligned_domain_coordinates(strand, index, quadrant_middle_coordinates[index], left_bound=left_bound_strand2, right_bound=right_bound_strand2))
+
 # Initialize a new figure
 fig, ax = plt.subplots(figsize=(8, 8))
 
-# Plot each matched strand in its respective quadrant
-for index, strand in enumerate(matched_strands):
-    color = 'red' if strand['contains_polymerase'] else 'blue'
-    ax.scatter(*quadrant_coordinates[index], color=color, s=100, label=strand['name'])
+# Plot each domain at its allocated coordinates
+for domain, (x, y) in all_domain_coordinates:
+    ax.text(x, y, domain, fontsize=9, ha='center')
+    ax.plot(x, y, marker='o', markersize=5, label=domain)
 
-# Set labels, title, and legend
-ax.set_title('Matched Strands Representation')
+# Set labels, title, and grid
+ax.set_title('Aligned Domain Coordinates Representation')
 ax.set_xlim(-1, 1)
 ax.set_ylim(-1, 1)
-ax.axhline(0, color='black',linewidth=0.5)
-ax.axvline(0, color='black',linewidth=0.5)
-ax.set_xlabel('X-axis')
-ax.set_ylabel('Y-axis')
+ax.axhline(0, color='black', linewidth=0.5)
+ax.axvline(0, color='black', linewidth=0.5)
 ax.grid(True, which='both')
-ax.legend(loc="lower right")
 
 # Display the plot
 plt.show()

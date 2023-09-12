@@ -51,7 +51,7 @@ for strand_sequence in obtained_strands:
 # Define coordinates for the middle of each quadrant
 quadrant_middle_coordinates = {
     0: (-0.5, 0.5),  # Top-left quadrant for Strand 1
-    1: (0, -0.5),    # Bottom quadrant for Strand 2
+    1: (0, 0.45),    # Bottom quadrant for Strand 2
     2: (0.5, 0.5)    # Top-right quadrant for Strand 3
 }
 
@@ -92,7 +92,7 @@ right_bound_strand2 = left_bound_strand2 + (len(strand2_domains) - 1) * universa
 strand1_domains_count = len(matched_strands[0]['sequence'].split())
 
 # Setting the x-coordinate of the last domain of strand 3
-last_domain_strand3_x = (strand1_domains_count) * universal_spacing - 0.2
+last_domain_strand3_x = (strand1_domains_count) * universal_spacing - 0.22
 
 # Adjusting the middle coordinate of quadrant III to set the correct x-coordinate for the last domain of strand 3
 quadrant_middle_coordinates[2] = (last_domain_strand3_x - (len(matched_strands[2]['sequence'].split()) - 1) * universal_spacing, quadrant_middle_coordinates[2][1])
@@ -110,31 +110,31 @@ for index, strand in enumerate(matched_strands):
 # Initialize a new figure
 fig, ax = plt.subplots(figsize=(8, 8))
 
-# Define colors for each strand
+# Plot each domain at its allocated coordinates and draw lines connecting domains of the same strand
 strand_colors = ['red', 'green', 'blue']
-
-# Plot each domain at its allocated coordinates
 for index, strand in enumerate(matched_strands):
     strand_domains = strand['sequence'].split()
-    strand_coordinates = all_domain_coordinates[
-        sum(len(matched_strands[i]['sequence'].split()) for i in range(index)): 
-        sum(len(matched_strands[i]['sequence'].split()) for i in range(index+1))
-    ]
+    strand_coordinates = [coord for domain, coord in all_domain_coordinates if domain in strand_domains]
     
-    # Plotting lines connecting the domains of the current strand
-    x_coords, y_coords = zip(*[coord for _, coord in strand_coordinates])
+    x_coords, y_coords = zip(*strand_coordinates)
     ax.plot(x_coords, y_coords, color=strand_colors[index], label=strand['name'])
     
-    for domain, (x, y) in strand_coordinates:
+    for domain, (x, y) in zip(strand_domains, strand_coordinates):
         ax.text(x, y, domain, fontsize=9, ha='center')
         ax.plot(x, y, marker='o', markersize=5, color=strand_colors[index])
 
+# Finding the min and max for x and y coordinates to fit the window to the contents
+x_coords, y_coords = zip(*[coord for domain, coord in all_domain_coordinates])
+x_min, x_max = min(x_coords), max(x_coords)
+y_min, y_max = min(y_coords), max(y_coords)
+
+# Setting a margin to avoid points touching the borders
+margin = 0.1
+ax.set_xlim(x_min - margin, x_max + margin)
+ax.set_ylim(y_min - margin, y_max + margin)
+
 # Set labels, title, and grid
 ax.set_title('Aligned Domain Coordinates Representation')
-ax.set_xlim(-1, 1)
-ax.set_ylim(-1, 1)
-ax.axhline(0, color='black', linewidth=0.5)
-ax.axvline(0, color='black', linewidth=0.5)
 ax.grid(True, which='both')
 
 # Adding a legend to represent each strand with the respective color

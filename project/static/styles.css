@@ -38,7 +38,7 @@ label, input {
 
 /* Dark Mode Styles for the Card */
 .card {
-    background-color: #2e2e2e;  /* Dark grey background */
+    background-image: linear-gradient(to right, rgb(58, 6, 65) , rgb(0, 0, 0));
     border: 1px solid #444;     /* Darker border for the card */
     border-radius: 25px; 
 }
@@ -49,9 +49,12 @@ label, input {
 
 /* Dark Mode Styles for Form */
 form {
-    background-color: #2e2e2e !important;  /* Dark grey background for form */
+
     border: none !important;               /* Remove border as the card already has one */
     color: #e0e0e0 !important;             /* Light grey text color */
+    background-image: linear-gradient(to right, rgb(58, 6, 65) , rgb(0, 0, 0));
+
+
 }
 
 /* Styles for input fields, textareas, and select boxes in dark mode */
@@ -105,8 +108,6 @@ form input:focus, form textarea:focus, form select:focus {
 
 
 
-
-
 .navbar {
     position: sticky;
     top: 0;
@@ -143,3 +144,7 @@ form input:focus, form textarea:focus, form select:focus {
 }
 
 
+
+.domain {
+    font-size: 12px;
+  }

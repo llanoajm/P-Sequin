@@ -7,14 +7,18 @@ from NSGA import *
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    strands_data = [
+        {'name': 'Strand1', 'sequence': 'fb sc mc', 'contains_polymerase': True},
+        {'name': 'Strand2', 'sequence': 'fc* mc* sc* fb* mb* sb*', 'contains_polymerase': False},
+        {'name': 'Strand3', 'sequence': 'hcj sb mb', 'contains_polymerase': False},
+    ]
+    return render_template('index.html', strands_data = strands_data)
 
 @app.route('/generate', methods=['POST'])
 def generate():
     domain_appearances = {}
     domains_num = int(request.form['domains_num'])
     domain_names = request.form['domain_names'].split(',')
-    
     domain_lengths = list(map(int, request.form['domain_lengths'].split(',')))
     initial_population = []
     domains = []

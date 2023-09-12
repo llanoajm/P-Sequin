@@ -16,7 +16,7 @@
         <a href="/" class="logo mb-4"> <span style="color: #00a2ed"> P-</span>Sequin</a>
         <a href="#settings" class="runtime-settings">Runtime Settings</a>
     </div>
-    <h1> Reaction Network Design</h1>
+
 
     <div class="container mt-5">
         {% if not domain_sequences and not strand_sequences %}
@@ -91,6 +91,17 @@
             </div>
         </div>
         {% endif %}
+        
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5>Complex Visualization:</h5>
+                <img src="{{ url_for('static', filename='plot.png') }}" alt="Complex Plot" />
+               
+            </div>
+        </div>
+
+
+        
 
         <!-- Retry Button -->
         <div class="text-center mt-3">
@@ -99,12 +110,27 @@
             <button onclick="location.href='/'" class="btn btn-warning mt-3">New Design</button>
         </div>
         {% endif %}
+
     </div>
     <br>
     <br>
 
     <!-- OUTPUT DISPLAY FOR COMPLEXES -->
 
+    <svg height="200" width="100%">
+        {% set counter = 0 %}
+        {% for strand_details in strands_data %}
+            {% set counter = counter + 1 %}
+            {% set strand_sequence = strand_details['sequence'].split() %}
+            {% set domain_counter = 0 %}
+            {% for domain in strand_sequence %}
+                {% set domain_counter = domain_counter + 1 %}
+                <text x="{{ 50 + domain_counter * 30 }}" y="{{ 20 + counter * 50 }}" class="domain">{{ domain }}</text>
+            {% endfor %}
+            <!-- Add a line to represent the strand -->
+            <line x1="50" y1="{{ 18 + counter * 50 }}" x2="{{ 50 + (30 * (strand_sequence|length)) }}" y2="{{ 18 + counter * 50 }}" style="stroke:rgb(0,0,0);stroke-width:2" />
+        {% endfor %}
+    </svg>
 
     <br>
     <br>

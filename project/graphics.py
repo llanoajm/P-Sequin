@@ -91,10 +91,8 @@ right_bound_strand2 = left_bound_strand2 + (len(strand2_domains) - 1) * universa
 # Calculate the x-coordinate for the last domain in strand 3
 strand1_domains_count = len(matched_strands[0]['sequence'].split())
 
-
 # Setting the x-coordinate of the last domain of strand 3
 last_domain_strand3_x = (strand1_domains_count) * universal_spacing - 0.2
-print(universal_spacing)
 
 # Adjusting the middle coordinate of quadrant III to set the correct x-coordinate for the last domain of strand 3
 quadrant_middle_coordinates[2] = (last_domain_strand3_x - (len(matched_strands[2]['sequence'].split()) - 1) * universal_spacing, quadrant_middle_coordinates[2][1])
@@ -112,10 +110,24 @@ for index, strand in enumerate(matched_strands):
 # Initialize a new figure
 fig, ax = plt.subplots(figsize=(8, 8))
 
+# Define colors for each strand
+strand_colors = ['red', 'green', 'blue']
+
 # Plot each domain at its allocated coordinates
-for domain, (x, y) in all_domain_coordinates:
-    ax.text(x, y, domain, fontsize=9, ha='center')
-    ax.plot(x, y, marker='o', markersize=5, label=domain)
+for index, strand in enumerate(matched_strands):
+    strand_domains = strand['sequence'].split()
+    strand_coordinates = all_domain_coordinates[
+        sum(len(matched_strands[i]['sequence'].split()) for i in range(index)): 
+        sum(len(matched_strands[i]['sequence'].split()) for i in range(index+1))
+    ]
+    
+    # Plotting lines connecting the domains of the current strand
+    x_coords, y_coords = zip(*[coord for _, coord in strand_coordinates])
+    ax.plot(x_coords, y_coords, color=strand_colors[index], label=strand['name'])
+    
+    for domain, (x, y) in strand_coordinates:
+        ax.text(x, y, domain, fontsize=9, ha='center')
+        ax.plot(x, y, marker='o', markersize=5, color=strand_colors[index])
 
 # Set labels, title, and grid
 ax.set_title('Aligned Domain Coordinates Representation')
@@ -124,6 +136,9 @@ ax.set_ylim(-1, 1)
 ax.axhline(0, color='black', linewidth=0.5)
 ax.axvline(0, color='black', linewidth=0.5)
 ax.grid(True, which='both')
+
+# Adding a legend to represent each strand with the respective color
+ax.legend()
 
 # Display the plot
 plt.show()

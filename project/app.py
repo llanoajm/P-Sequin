@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from graphics import DNAComplexPlotter
 
 app = Flask(__name__)
 
@@ -7,12 +8,7 @@ from NSGA import *
 
 @app.route('/')
 def index():
-    strands_data = [
-        {'name': 'Strand1', 'sequence': 'fb sc mc', 'contains_polymerase': True},
-        {'name': 'Strand2', 'sequence': 'fc* mc* sc* fb* mb* sb*', 'contains_polymerase': False},
-        {'name': 'Strand3', 'sequence': 'hcj sb mb', 'contains_polymerase': False},
-    ]
-    return render_template('index.html', strands_data = strands_data)
+    return render_template('index.html')
 
 @app.route('/generate', methods=['POST'])
 def generate():
@@ -26,28 +22,44 @@ def generate():
     for i in range(domains_num):
         name = domain_names[i]
         domain_appearances[name] = []
-        domain_appearances[name + '\''] = []
+        domain_appearances[name + '*'] = []
         length = domain_lengths[i]
         sequence, complement_sequence = generate_unique_domain_and_complement(length)
         new_domain_names.append(name)
-        new_domain_names.append(name+"\'")
+        new_domain_names.append(name+"*")
         domain = Domain(name, sequence)
         domains.append(domain)
         initial_population.append(sequence); initial_population.append(complement_sequence)
-        complement_domain = Domain(name + '\'', complement_sequence)
+        complement_domain = Domain(name + '*', complement_sequence)
         domains.append(complement_domain)
 
     domain_sequences = [f"{domain.name}: {domain.sequence}" for domain in domains]
     
     strand_structures = request.form.getlist('strand_structure[]')
     complex_notations = request.form.getlist('complex_notation[]')  # Getting complexes from the form
-    complex_strands_input = request.form.getlist('complex_strands[]')
-    complex_strands = complex_strands_input
     print("Checkpoint")
-    for complex_strand, complex_notation in zip(complex_strands, complex_notations):
-        print(represent_complex(complex_strand, complex_notation))
+    # Usage:
+    for strand in strand_structures:
+        print(strand)
+        
+    # strands_data = [
+    #     {'name': 'Strand1', 'sequence': 'fk sc mc', 'contains_polymerase': True},
+    #     {'name': 'Strand2', 'sequence': 'fc* mc* sc* fk* mb* sb*', 'contains_polymerase': False},
+    #     {'name': 'Strand3', 'sequence': 'hcj sb mb', 'contains_polymerase': False},
+    # ]
+    # for complex_structure in complex_notations:
+    #     plotter = DNAComplexPlotter(complex_structure, strands_data)
+    #     plotter.plot_strands()
+        
+    strands_data = [
+        {'name': 'Strand1', 'sequence': 'fb sc mc', 'contains_polymerase': True},
+        {'name': 'Strand2', 'sequence': 'fc* mc* sc* fb* mb* sb*', 'contains_polymerase': False},
+        {'name': 'Strand3', 'sequence': 'hcj sb mb', 'contains_polymerase': False},
+    ]
 
-    
+    complex_structure = "fb( sc( mc( + fc* ) ) ) mb*( sb*( + hcj ) )"
+
+   
     
     is_polymerase = request.form.getlist('is_polymerase') 
     with_overhang = 'overhang' in request.form
@@ -56,11 +68,7 @@ def generate():
         for domain_name in structure.split():
             domain_appearances[domain_name].append(index)
 
-    # Process complex notations as needed
-    complexes = []  # Create a list to store the complexes
-    for notation in complex_notations:
-        # Process each complex notation here
-        complexes.append(notation)  # Add the complex to the list
+    
 
     nsga = NSGA(initial_population, domain_appearances, strand_structures, new_domain_names)
     

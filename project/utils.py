@@ -4,7 +4,7 @@ class Domain:
     def __init__(self, name, sequence) -> None:
         self.name = name
         self.sequence = sequence
-        self.complement = '\'' in name
+        self.complement = '*' in name
         
 
 class Strand:

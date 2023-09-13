@@ -1,4 +1,7 @@
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+
 import mpld3
 
 class DNAComplexPlotter:
@@ -112,15 +115,3 @@ class DNAComplexPlotter:
         ax.legend()
         with open('plot.html', 'w') as f:
             mpld3.save_html(fig, f)
-        
-# Usage:
-strands_data = [
-    {'name': 'Strand1', 'sequence': 'fb sc mc', 'contains_polymerase': True},
-    {'name': 'Strand2', 'sequence': 'fc* mc* sc* fb* mb* sb*', 'contains_polymerase': False},
-    {'name': 'Strand3', 'sequence': 'hcj sb mb', 'contains_polymerase': False},
-]
-
-complex_structure = "fb( sc( mc( + fc* ) ) ) mb*( sb*( + hcj ) )"
-
-plotter = DNAComplexPlotter(complex_structure, strands_data)
-plotter.plot_strands()

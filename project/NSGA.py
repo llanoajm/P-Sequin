@@ -106,7 +106,7 @@ class NSGA:
     def reconcile_complementary_domains(self, relevant_population):
         # Iterate through the domain names and sequences in pairs (assuming keys are paired with their complements)
         for domain_name, domain_sequence in list(relevant_population.items())[::2]:
-            complement_name = domain_name + '\''  # Assuming complement names are appended with a prime symbol
+            complement_name = domain_name + '*'  # Assuming complement names are appended with a prime symbol
             complement_sequence = relevant_population[complement_name]
 
             # Evaluate the domain and complement

@@ -34,41 +34,32 @@ def generate():
         domains.append(complement_domain)
 
     domain_sequences = [f"{domain.name}: {domain.sequence}" for domain in domains]
-    
+
+    # Here we get the strand names and structures from the form
+    strand_names = request.form.getlist('strand_name[]')
     strand_structures = request.form.getlist('strand_structure[]')
     complex_notations = request.form.getlist('complex_notation[]')  # Getting complexes from the form
-    print("Checkpoint")
-    # Usage:
-    for strand in strand_structures:
-        print(strand)
-        
-    # strands_data = [
-    #     {'name': 'Strand1', 'sequence': 'fk sc mc', 'contains_polymerase': True},
-    #     {'name': 'Strand2', 'sequence': 'fc* mc* sc* fk* mb* sb*', 'contains_polymerase': False},
-    #     {'name': 'Strand3', 'sequence': 'hcj sb mb', 'contains_polymerase': False},
-    # ]
-    # for complex_structure in complex_notations:
-    #     plotter = DNAComplexPlotter(complex_structure, strands_data)
-    #     plotter.plot_strands()
-        
-    strands_data = [
-        {'name': 'Strand1', 'sequence': 'fb sc mc', 'contains_polymerase': True},
-        {'name': 'Strand2', 'sequence': 'fc* mc* sc* fb* mb* sb*', 'contains_polymerase': False},
-        {'name': 'Strand3', 'sequence': 'hcj sb mb', 'contains_polymerase': False},
-    ]
+    complex_names = request.form.getlist('complex_name[]')  # Getting complex names from the form
 
-    complex_structure = "fb( sc( mc( + fc* ) ) ) mb*( sb*( + hcj ) )"
+    # Constructing strands_data dynamically based on the form inputs
+    strands_data = []
+    for i in range(len(strand_structures)):
+        strands_data.append({
+            'name': strand_names[i],
+            'sequence': strand_structures[i],
+            'contains_polymerase': False
+        })
 
-   
-    
+    for complex_structure in complex_notations:
+        plotter = DNAComplexPlotter(complex_structure, strands_data)
+        plotter.plot_strands()
+        
     is_polymerase = request.form.getlist('is_polymerase') 
     with_overhang = 'overhang' in request.form
 
     for index, structure in enumerate(strand_structures):
         for domain_name in structure.split():
             domain_appearances[domain_name].append(index)
-
-    
 
     nsga = NSGA(initial_population, domain_appearances, strand_structures, new_domain_names)
     

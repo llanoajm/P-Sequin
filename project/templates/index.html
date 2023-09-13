@@ -158,9 +158,16 @@
             newInput.className = 'form-control mt-2';
             newInput.name = 'strand_structure[]';
 
+            // Create new hidden input for strand name
+            var newHiddenInput = document.createElement('input');
+            newHiddenInput.type = 'hidden';
+            newHiddenInput.name = 'strand_name[]';
+            newHiddenInput.value = strandName;
+
             // Append name and input to strand-inputs div
             strandInputs.appendChild(nameDiv);
             strandInputs.appendChild(newInput);
+            strandInputs.appendChild(newHiddenInput);  // Append the hidden input here
         });
 
         
@@ -178,8 +185,6 @@
             nameDiv.className = 'complex-name mt-2';
             nameDiv.innerText = complexName;
 
-            
-
             // Create new input for complex
             var newInput = document.createElement('input');
             newInput.type = 'text';
@@ -187,10 +192,16 @@
             newInput.className = 'form-control mt-2';
             newInput.name = 'complex_notation[]';
 
+            // Create new hidden input for complex name
+            var newHiddenInput = document.createElement('input');
+            newHiddenInput.type = 'hidden';
+            newHiddenInput.name = 'complex_name[]';
+            newHiddenInput.value = complexName;
+
             // Append div and inputs to complex-entry div
             complexDiv.appendChild(nameDiv);
             complexDiv.appendChild(newInput);
-            
+            complexDiv.appendChild(newHiddenInput);  // Append the hidden input here
 
             // Append complex-entry div to complex-inputs div
             complexInputs.appendChild(complexDiv);

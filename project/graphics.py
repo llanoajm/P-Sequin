@@ -113,5 +113,4 @@ class DNAComplexPlotter:
 
         ax.set_title('DNA Complex Plot')
         ax.legend()
-        with open('plot.html', 'w') as f:
-            mpld3.save_html(fig, f)
+        mpld3.show()

@@ -14,3 +14,14 @@ make collaborative and llamav2 modifies and interfaces code and with git.
 standardize graphics object. Incorporate iframe into index.html.
 
 merge models or leverage them together.
+
+
+
+
+    strands_data = [
+        {'name': 'Strand1', 'sequence': 'fb sc mc', 'contains_polymerase': True},
+        {'name': 'Strand2', 'sequence': 'fc* mc* sc* fb* mb* sb*', 'contains_polymerase': False},
+        {'name': 'Strand3', 'sequence': 'hcj sb mb', 'contains_polymerase': False},
+    ]
+
+    complex_structure = "fb( sc( mc( + fc* ) ) ) mb*( sb*( + hcj ) )"

@@ -97,7 +97,7 @@ class DNAComplexPlotter:
             else:
                 all_domain_coordinates.extend(self.calculate_aligned_domain_coordinates(strand, index, quadrant_middle_coordinates[index], left_bound=left_bound_strand2, right_bound=right_bound_strand2))
 
-        fig, ax = plt.subplots(figsize=(8, 8))
+        fig, ax = plt.subplots(figsize=(4, 4))
         strand_colors = ['red', 'green', 'blue']
         for index, strand in enumerate(self.matched_strands):
             if strand.get('contains_polymerase'):

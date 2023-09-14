@@ -111,14 +111,15 @@
 
     <!-- OUTPUT DISPLAY FOR COMPLEXES -->
     {% if filenames %}
-        <div class="card mt-3">
-            <div class="card-body">
+        
+        <div class="complex-section" style="margin: auto;"> 
+            
                 <h5>Generated Complex Plots:</h5>
                 {% for filename in filenames %}
-                <img src="{{ url_for('static', filename=filename) }}" alt="Generated Plot" class="img-fluid mb-3">
+                <img src="{{ url_for('static', filename=filename) }}" alt="Generated Plot" class="img-fluid mb-3" style="width: 30%; height: auto;">
                 {% endfor %}
-            </div>
         </div>
+    
     {% endif %}
 
 

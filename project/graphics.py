@@ -113,4 +113,14 @@ class DNAComplexPlotter:
 
         ax.set_title('DNA Complex Plot')
         ax.legend()
-        mpld3.show()
+        plt.savefig('project/static/plot.png')
+
+strands_data = [
+        {'name': 'Strand1', 'sequence': 'fb sc mc', 'contains_polymerase': True},
+        {'name': 'Strand2', 'sequence': 'fc* mc* sc* fb* mb* sb*', 'contains_polymerase': False},
+        {'name': 'Strand3', 'sequence': 'hcj sb mb', 'contains_polymerase': False},
+]
+
+complex_structure = "fb( sc( mc( + fc* ) ) ) mb*( sb*( + hcj ) )"
+plotter = DNAComplexPlotter(complex_structure, strands_data)
+plotter.plot_strands()

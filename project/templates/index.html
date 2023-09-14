@@ -110,14 +110,17 @@
     <br>
 
     <!-- OUTPUT DISPLAY FOR COMPLEXES -->
-    {% if strand_sequences %}
-    <div class="card mt-3">
-        <div class="card-body">
-            <h5>Generated Plot:</h5>
-            <img src="{{ url_for('static', filename='plot.png') }}" alt="Generated Plot" class="img-fluid">
+    {% if filenames %}
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5>Generated Complex Plots:</h5>
+                {% for filename in filenames %}
+                <img src="{{ url_for('static', filename=filename) }}" alt="Generated Plot" class="img-fluid mb-3">
+                {% endfor %}
+            </div>
         </div>
-    </div>
     {% endif %}
+
 
 
     <br>

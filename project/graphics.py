@@ -1,6 +1,7 @@
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import os
 
 import mpld3
 
@@ -64,7 +65,7 @@ class DNAComplexPlotter:
         
         return list(zip(domains, coordinates))
 
-    def plot_strands(self):
+    def plot_strands(self, filename="plot.png"):
         quadrant_middle_coordinates = {
             0: (-0.5, 0.5),
             1: (0, 0.45),
@@ -113,7 +114,10 @@ class DNAComplexPlotter:
 
         ax.set_title('DNA Complex Plot')
         ax.legend()
-        plt.savefig('project/static/plot.png')
+        if not os.path.exists('project/static'):
+            os.makedirs('project/static')
+
+        plt.savefig(f'project/static/{filename}')
 
 strands_data = [
         {'name': 'Strand1', 'sequence': 'fb sc mc', 'contains_polymerase': True},

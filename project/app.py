@@ -50,9 +50,12 @@ def generate():
             'contains_polymerase': False
         })
 
-    for complex_structure in complex_notations:
+    filenames = []
+    for i, complex_structure in enumerate(complex_notations):
         plotter = DNAComplexPlotter(complex_structure, strands_data)
-        plotter.plot_strands()
+        filename = f'plot_{i}.png'
+        filenames.append(filename)
+        plotter.plot_strands(filename=filename)
         
     is_polymerase = request.form.getlist('is_polymerase') 
     with_overhang = 'overhang' in request.form
@@ -69,7 +72,6 @@ def generate():
     strand_sequences = [f"Strand {i+1}: {strand}" for i, strand in enumerate(evolved_strands)]
     domain_sequences = [f"{domain_data['name']}: {domain_data['sequence']}" for domain_data in evolved_domain_data]
 
-    return render_template('index.html', domain_sequences=domain_sequences, strand_sequences=strand_sequences)
-
+    return render_template('index.html', domain_sequences=domain_sequences, strand_sequences=strand_sequences, filenames=filenames)
 if __name__ == '__main__':
     app.run(debug=True)

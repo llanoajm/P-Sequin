@@ -8,10 +8,9 @@ Add strands as cells and have flag for whether they bear a polymerase or not.
 Instead of making it average we need a way to inflate the score of a particular strand if it contains a small amount of domains.
 Tackle complement consistency.
 Fix nupack metric and LCS (sequin) metric.
-
+simulate ODE concentrations.
 make collaborative and llamav2 modifies and interfaces code and with git.
 
-standardize graphics object. Incorporate iframe into index.html.
 
 merge models or leverage them together.
 

@@ -99,8 +99,8 @@
 
         <!-- Retry Button -->
         <div class="text-center mt-3">
-            <button class="btn btn-light" id="retryButton">Regenerate</button>
-            <br>
+            
+         
             <button onclick="location.href='/'" class="btn btn-warning mt-3">New Design</button>
         </div>
         {% endif %}
@@ -137,29 +137,49 @@
         document.getElementById('addStrand').addEventListener('click', function() {
             var strandName = prompt("Please enter the name of the strand:");
             var strandInputs = document.querySelector('.strand-inputs');
-
+    
             // Create a div for the strand name
             var nameDiv = document.createElement('div');
             nameDiv.className = 'strand-name mt-2';
             nameDiv.innerText = strandName;
-
+    
             // Create new input for strand
             var newInput = document.createElement('input');
             newInput.type = 'text';
             newInput.placeholder = 'Enter strand. Domains separated by spaces';
             newInput.className = 'form-control mt-2';
             newInput.name = 'strand_structure[]';
-
+    
             // Create new hidden input for strand name
             var newHiddenInput = document.createElement('input');
             newHiddenInput.type = 'hidden';
             newHiddenInput.name = 'strand_name[]';
             newHiddenInput.value = strandName;
-
-            // Append name and input to strand-inputs div
+    
+            // Create a div to hold the checkbox and its label, with vertical centering
+            var polymeraseCheckDiv = document.createElement('div');
+            polymeraseCheckDiv.className = 'form-check mt-2 d-flex align-items-center';
+    
+            // Create a checkbox to indicate whether the strand contains polymerase
+            var polymeraseCheckbox = document.createElement('input');
+            polymeraseCheckbox.type = 'checkbox';
+            polymeraseCheckbox.name = 'contains_polymerase[]';
+            polymeraseCheckbox.className = 'form-check-input';
+    
+            // Create a label for the checkbox
+            var polymeraseLabel = document.createElement('label');
+            polymeraseLabel.className = 'form-check-label ml-2';
+            polymeraseLabel.innerText = 'Contains Polymerase';
+    
+            // Append the checkbox and label to the div
+            polymeraseCheckDiv.appendChild(polymeraseCheckbox);
+            polymeraseCheckDiv.appendChild(polymeraseLabel);
+    
+            // Append name, input, hidden input, and the polymeraseCheckDiv to the strand-inputs div
             strandInputs.appendChild(nameDiv);
             strandInputs.appendChild(newInput);
-            strandInputs.appendChild(newHiddenInput);  // Append the hidden input here
+            strandInputs.appendChild(newHiddenInput);
+            strandInputs.appendChild(polymeraseCheckDiv);  // Append the div containing the checkbox and label here
         });
 
         

@@ -24,3 +24,14 @@ merge models or leverage them together.
     ]
 
     complex_structure = "fb( sc( mc( + fc* ) ) ) mb*( sb*( + hcj ) )"
+
+
+
+
+
+    align complex boxes.
+    state target strands and concentrations.
+    simulate ODEs
+    give options to change fuel species to yield different behavior.
+    Demos section
+    Store Design

@@ -3,7 +3,6 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import os
 
-import mpld3
 
 class DNAComplexPlotter:
     def __init__(self, complex_structure, strands_data):
@@ -98,6 +97,8 @@ class DNAComplexPlotter:
                 all_domain_coordinates.extend(self.calculate_aligned_domain_coordinates(strand, index, quadrant_middle_coordinates[index], left_bound=left_bound_strand2, right_bound=right_bound_strand2))
 
         fig, ax = plt.subplots(figsize=(4, 4))
+        ax.set_ylim(0.35, 0.6)
+        ax.set_xlim(-1.1, 0.1)
         strand_colors = ['red', 'green', 'blue']
         for index, strand in enumerate(self.matched_strands):
             if strand.get('contains_polymerase'):

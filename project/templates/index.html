@@ -13,46 +13,57 @@
 <body>
   
     <div class="navbar">
-        <a href="/" class="logo mb-4"> <span style="color: #00a2ed"> P-</span>Sequin</a>
+        <a href="/" class="logo mb-4"> <span style="color: #6700dd;"> P-</span>Sequin</a>
         <a href="#settings" class="runtime-settings">Runtime Settings</a>
     </div>
 
 
     <div class="container mt-5">
         {% if not domain_sequences and not strand_sequences %}
-        <div class="card" id="inputForm">
+        <div id="inputForm">
+            
             <div class="card-body">
                 <form action="/generate" method="post">
-                    <h5 class="mb-3">Domain Details:</h5>
-                    <div class="form-group">
-                        <label>Number of Domains:</label>
-                        <input type="number" name="domains_num" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Enter Domain Names (comma-separated):</label>
-                        <input type="text" name="domain_names" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Enter Domain Lengths (comma-separated):</label>
-                        <input type="text" name="domain_lengths" class="form-control" required>
-                    </div>
-
-                    <!-- DNA Strands Section -->
-                    <div class="strand-section mt-4">
-                        <h5>Enter DNA Strands:</h5>
-                        <div class="strand-inputs">
-                            <!-- Dynamic strand inputs will be appended here -->
+                    <h5 class="mb-3 section-title">Domain Details</h5>
+                    <div class="card">
+                        <div class="form-group">
+                            <label>Number of Domains:</label>
+                            <input type="number" name="domains_num" class="form-control" required>
                         </div>
-                        <button type="button" class="btn btn-secondary mt-2" id="addStrand">Add Strand</button>
-                    </div>
-
-                    <!-- Complex Details Section -->
-                    <div class="complex-section mt-4">
-                        <h5>Enter Target Complexes:</h5>
-                        <div class="complex-inputs">
-                            <!-- Dynamic complex inputs will be appended here -->
+                        <div class="form-group">
+                            <label>Enter Domain Names (comma-separated):</label>
+                            <input type="text" name="domain_names" class="form-control" required>
                         </div>
-                        <button type="button" class="btn btn-secondary mt-2" id="addComplex">Add Complex</button>
+                        <div class="form-group">
+                            <label>Enter Domain Lengths (comma-separated):</label>
+                            <input type="text" name="domain_lengths" class="form-control" required>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <h5 class="mb-3 section-title">Strand Details</h5>
+                    <div class="card">
+                        <!-- DNA Strands Section -->
+                        <div class="strand-section mt-4">
+                            <h5>Enter DNA Strands:</h5>
+                            <div class="strand-inputs">
+                                <!-- Dynamic strand inputs will be appended here -->
+                            </div>
+                            <button type="button" class="btn btn-secondary mt-2" id="addStrand">Add Strand</button>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <h5 class="mb-3 section-title">Complex Details</h5>
+                    <div class="card">
+                        <!-- Complex Details Section -->
+                        <div class="complex-section mt-4">
+                            <h5>Enter Target Complexes:</h5>
+                            <div class="complex-inputs">
+                                <!-- Dynamic complex inputs will be appended here -->
+                            </div>
+                            <button type="button" class="btn btn-secondary mt-2" id="addComplex">Add Complex</button>
+                        </div>
                     </div>
 
                     <div class="form-check mt-4 mb-3">
@@ -60,7 +71,7 @@
                         <label class="form-check-label">Include 3' Poly-T Overhang</label>
                     </div>
 
-                    <input type="submit" value="Generate" class="btn btn-primary">
+                    <input type="submit" value="Generate" class="btn btn-primary" style="background-color:black !important;">
                 </form>
             </div>
         </div>

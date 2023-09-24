@@ -11,9 +11,20 @@
 </head>
 
 <body>
-  
+
+    
+    
+        
+    
+    <div id="announcement">
+        <span style="grid-column: 1;"> <a href="" target="_blank"> <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" style="width:22px; height:auto;"> |</img> </a> </span>
+        <span style="grid-column: 2;"> <a href="" target="_blank">Lab |</a> </span>
+        <span style="grid-column: 1;"> <a href="" target="_blank">Contact</a> </span>
+        
+        
+    </div>
     <div class="navbar">
-        <a href="/" class="logo mb-4"> <span style="color: #6700dd;"> P-</span>Sequin</a>
+        <a href="/" class="logo mb-4"> <span style="color: #6700dd;"> P</span>sequin</a>
         <a href="#settings" class="runtime-settings">Runtime Settings</a>
     </div>
 
@@ -23,7 +34,7 @@
         <div id="inputForm">
             
             <div class="card-body">
-                <form action="/generate" method="post">
+                <form action="/generate" method="post" onsubmit="showLoading()">
                     <h5 class="mb-3 section-title">Domain Details</h5>
                     <div class="card">
                         <div class="form-group">
@@ -70,7 +81,11 @@
                         <input class="form-check-input" type="checkbox" name="overhang" value="yes">
                         <label class="form-check-label">Include 3' Poly-T Overhang</label>
                     </div>
-
+                    <div id="loading" class="text-center" style="display:none; background-color: rgb(245, 245, 248) !important;">
+                        <div class="spinner-border text-primary" style="border-color: #6700dd;; border-right-color: transparent;" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
                     <input type="submit" value="Generate" class="btn btn-primary" style="background-color:black !important;">
                 </form>
             </div>
@@ -112,7 +127,7 @@
         <div class="text-center mt-3">
             
          
-            <button onclick="location.href='/'" class="btn btn-warning mt-3">New Design</button>
+            <button onclick="location.href='/'" class="btn btn-warning mt-3" style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">New Design</button>
         </div>
         {% endif %}
 
@@ -123,9 +138,9 @@
     <!-- OUTPUT DISPLAY FOR COMPLEXES -->
     {% if filenames %}
         
-        <div class="complex-section" style="margin: auto;"> 
+        <div class="complex-section" style="margin: auto; padding: 0 50px 0;"> 
             
-                <h5>Generated Complex Plots:</h5>
+                <h5 class="generatedTitle">Generated Complex Plots:</h5>
                 {% for filename in filenames %}
                 <img src="{{ url_for('static', filename=filename) }}" alt="Generated Plot" class="img-fluid mb-3" style="width: 30%; height: auto;">
                 {% endfor %}
@@ -144,6 +159,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
+        function showLoading() {
+            document.getElementById("loading").style.display = "block";
+        }
+        
         // JavaScript to dynamically add strand inputs
         document.getElementById('addStrand').addEventListener('click', function() {
             var strandName = prompt("Please enter the name of the strand:");

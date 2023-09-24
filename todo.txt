@@ -35,3 +35,5 @@ merge models or leverage them together.
     give options to change fuel species to yield different behavior.
     Demos section
     Store Design
+    Make GA work lol.
+    Loading animation

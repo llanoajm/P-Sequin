@@ -29,11 +29,13 @@ merge models or leverage them together.
 
 
 
-    align complex boxes.
     state target strands and concentrations.
     simulate ODEs
     give options to change fuel species to yield different behavior.
-    Demos section
+    1) Demos section
     Store Design
-    Make GA work lol.
-    Loading animation
+    2) Make GA work lol.
+    3) push s3
+    4) intelligent programming suggestions.
+
+    5) polymerase and enzyme-free mode.

@@ -2,8 +2,8 @@
 
 import random
 import sys
-sys.path.append('NUPACK/src/source')
-
+sys.path.append('./NUPACK/src/source/python')
+import python as nu
 
 def compute_stability(sequence):
     #lazy import bc there is a circular

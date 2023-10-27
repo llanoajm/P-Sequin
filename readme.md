@@ -17,4 +17,4 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Click the image below to watch the demo video on YouTube:
 
-[![Demo Video](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+[![Demo Video](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://youtu.be/S-hUrU09LUw)

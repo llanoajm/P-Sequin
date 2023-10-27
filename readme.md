@@ -1,0 +1,20 @@
+# P Sequin
+
+## Description
+
+This project aims to solve sequence generation for DNA polymerase strand displacement circuits. It factors in stability metrics from Nupack, GC-content, LCS-minimization, among others. It also allows for automatically visualizing complexes entered in dot-parens notation.
+
+
+## Notes
+
+Please only use 2D DNA complexes. Avoid repeating strand names. Support for automatically rendering the complexes will be coming soon. Chaining saved reactions will also be coming soon. Report bugs at llanoajm@gmail.com.
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## Demo
+
+Click the image below to watch the demo video on YouTube:
+
+[![Demo Video](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)

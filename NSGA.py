@@ -34,10 +34,9 @@ class NSGA:
         plt.show()
         
     def evaluate(self, domain_individual):
-        # Get the current sequence of the domain
         domain_sequence = ''.join(domain_individual)
         
-        # Retrieve the IDs of the strands where this domain appears
+
         strand_ids = self.domain_appearances[domain_individual.id]
         
         
@@ -71,7 +70,6 @@ class NSGA:
         
     # Normalize by total weight
         if total_weight == 0:
-            # Handle the special case here. You can return a default value or raise a specific exception.
             return (0, 0, 0, 0, 0, 0)  # Example default value
         average_scores = [score / total_weight for score in total_scores]
         return tuple(average_scores)
@@ -131,15 +129,13 @@ class NSGA:
 
     def run(self, generations):
 
-        # Define the initial population
+
         population = [creator.Individual(list(sequence)) for domain_name, sequence in self.initial_population.items()]
         for domain_name, individual in zip(self.initial_population.keys(), population):
             individual.id = domain_name
-        
-        # Extract all domains from the population that appear in strands
+
         relevant_population = [individual for individual in population if self.domain_appearances[individual.id]]
-        
-        # Evaluate the relevant population
+
         fitnesses = list(map(self.toolbox.evaluate, relevant_population))
         for ind, fit in zip(relevant_population, fitnesses):
             ind.fitness.values = fit

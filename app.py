@@ -35,13 +35,13 @@ def generate():
 
     domain_sequences = [f"{domain.name}: {domain.sequence}" for domain in domains]
 
-    # Here we get the strand names and structures from the form
+
     strand_names = request.form.getlist('strand_name[]')
     strand_structures = request.form.getlist('strand_structure[]')
     complex_notations = request.form.getlist('complex_notation[]')  # Getting complexes from the form
     complex_names = request.form.getlist('complex_name[]')  # Getting complex names from the form
 
-    # Constructing strands_data dynamically based on the form inputs
+
     strands_data = []
     for i in range(len(strand_structures)):
         strands_data.append({

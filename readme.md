@@ -17,8 +17,8 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Quick, no voice:
 
-[![Demo Video](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://youtu.be/S-hUrU09LUw)
+[![Demo Video](https://img.youtube.com/vi/S-hUrU09LUw/0.jpg)](https://youtu.be/S-hUrU09LUw)
 
 Walk-through:
 
-[![Demo Video](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://youtu.be/JjGsAhOWAYI)
+[![Demo Video](https://img.youtube.com/vi/S-hUrU09LUw/0.jpg)](https://youtu.be/S-hUrU09LUw)

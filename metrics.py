@@ -1,24 +1,26 @@
 # all metrics are to be minimized
 
 import random
-import nupack as nu # installed on /usr/local/bin/python3, not on conda                     
+# import nupack as nu # installed on /usr/local/bin/python3, not on conda                     
 
 
 def compute_stability(sequence):
     
-    my_model = nu.Model(material='DNA')
-    result = nu.pfunc([sequence], model=my_model)
+    # my_model = nu.Model(material='DNA')
+    # result = nu.pfunc([sequence], model=my_model)
     # Return the negative logarithm of the partition function as a measure of stability
-    return float(-result[0]) #.log_pfunc
+    # return float(-result[0]) #.log_pfunc
+    return 0
 
 
 def check_secondary_structures(sequence):
     
-    my_model = nu.Model(material='DNA')
-    result = nu.mfe([sequence], model=my_model)
+    # my_model = nu.Model(material='DNA')
+    # result = nu.mfe([sequence], model=my_model)
     # Return the free energy of the MFE structure
     # Lower values (more negative) indicate more stable secondary structures
-    return result[0].energy
+    # return result[0].energy
+    return 0
 
 
 def check_if_palindrome(sequence):
@@ -27,8 +29,6 @@ def check_if_palindrome(sequence):
 def check_gc_content(sequence):
     gc_content = sum(1 for base in sequence if base in ["G", "C"]) / len(sequence)
     return float(not (0.4 <= gc_content <= 0.6))
-
-
 
 
 

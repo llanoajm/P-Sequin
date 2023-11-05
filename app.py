@@ -74,4 +74,4 @@ def generate():
 
     return render_template('index.html', domain_sequences=domain_sequences, strand_sequences=strand_sequences, filenames=filenames)
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run()
